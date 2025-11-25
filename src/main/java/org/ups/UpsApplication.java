@@ -2,6 +2,9 @@ package org.ups;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.ups.model.Test;
+import org.ups.model.User;
+
 
 
 /*
@@ -30,7 +33,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    
  *    
  *    
- *    Package   -- shashank
+ *    Package   -- shashank goud
  *    
  *    
  *    
@@ -50,8 +53,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    
  *    
  *    
- *    Admin console
- *    Fraud detection 
+ *    Admin console    
+ *    Fraud detection -- shashank
  *    
  *    
  *    
@@ -69,6 +72,9 @@ public class UpsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpsApplication.class, args);
+		String name = "sadasd";
+		Test user = new Test(name);  // create new object default consructopr 
+		
 	}
 
 }
