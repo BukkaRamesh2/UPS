@@ -1,10 +1,15 @@
-package org.ups.model;
+package org.ups.util;
+
+import org.ups.model.User;
 
 public class Test {
 	
 	
 	String name;
 	String password;
+	
+	public String streetName;
+	public String zipCode;
 	
 	public Test(){
 		System.out.println("default constructor of test is called");
@@ -36,9 +41,9 @@ public class Test {
 		System.out.println("Print this output in console");
 		
 		User user = new User();  // create object user
-		user.userName = "Test user name";  // called variable and assigned data to it 
+		user.setPassword("Test user name");  // called variable and assigned data to it 
 		//user.password =    // private 
-		user.email = "test@gmail.com";
+		//user.email = "test@gmail.com";
 		
 		
 		return "Test";

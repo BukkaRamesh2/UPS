@@ -2,8 +2,8 @@ package org.ups;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.ups.model.Test;
 import org.ups.model.User;
+import org.ups.util.Test;
 
 
 
@@ -53,7 +53,10 @@ import org.ups.model.User;
  *    
  *    
  *    
- *    Admin console    
+ *    Admin console    -- Tejaswi
+ *    
+ *    
+ *    
  *    Fraud detection -- shashank
  *    
  *    
