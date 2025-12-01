@@ -1,29 +1,23 @@
 package org.ups.model;
 
-public class Billing {
+public class Billing extends BillingInfo {
 
     private int billingId;
     private int shippingId;
     private int userId;
 
     private String invoiceNumber;
-
-    private double billingAmount;
-    private double taxAmount;
-    private double totalAmount;
-
     private String paymentMethod;
     private String billingStatus;
-
     private String createdDate;
     private String dueDate;
 
-    // default constructor
+    private boolean status;
+
     public Billing() {
-        System.out.println("Billing: default constructor");
+        System.out.println("Billing default constructor is called");
     }
 
-    // parameterized constructor
     public Billing(int billingId, int shippingId, int userId,
                    String invoiceNumber,
                    double billingAmount, double taxAmount, double totalAmount,
@@ -34,35 +28,39 @@ public class Billing {
         this.shippingId = shippingId;
         this.userId = userId;
         this.invoiceNumber = invoiceNumber;
-        this.billingAmount = billingAmount;
-        this.taxAmount = taxAmount;
-        this.totalAmount = totalAmount;
         this.paymentMethod = paymentMethod;
         this.billingStatus = billingStatus;
         this.createdDate = createdDate;
         this.dueDate = dueDate;
 
-        System.out.println("Billing: parameterized constructor");
+        this.billingAmount = billingAmount;
+        this.taxAmount = taxAmount;
+        this.totalAmount = totalAmount;
+
+        status = true;
+        System.out.println("Billing parameterized constructor is called");
     }
 
-    public static void main(String[] args) {
+    void testBilling() {
+        billingAmount = 500.0;
+        taxAmount = 50.0;
+        totalAmount = 550.0;
+        status = true;
+    }
 
-        // calls default constructor
-        Billing b1 = new Billing();
-
-        // calls parameterized constructor (you can change these values)
-        Billing b2 = new Billing(
-                101,    // billingId
-                201,    // shippingId
-                301,    // userId
-                "BILL-1",
-                500.0,  // billingAmount
-                50.0,   // taxAmount
-                550.0,  // totalAmount
-                "CARD",
-                "PENDING",
-                "2025-11-27",
-                "2025-12-05"
-        );
+    public void printBillSummary() {
+        System.out.println("------------- BILL SUMMARY -------------");
+        System.out.println("Billing ID   : " + billingId);
+        System.out.println("Shipping ID  : " + shippingId);
+        System.out.println("User ID      : " + userId);
+        System.out.println("Invoice No   : " + invoiceNumber);
+        System.out.println("Amount       : " + billingAmount);
+        System.out.println("Tax          : " + taxAmount);
+        System.out.println("Total        : " + totalAmount);
+        System.out.println("Payment Mode : " + paymentMethod);
+        System.out.println("Status       : " + billingStatus);
+        System.out.println("Created Date : " + createdDate);
+        System.out.println("Due Date     : " + dueDate);
+        System.out.println("----------------------------------------");
     }
 }
