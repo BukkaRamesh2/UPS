@@ -43,7 +43,7 @@ public static void main(String[] args) {
     //Setting Other Variables
     upsItem.weightUnit = WeightUnit.LBS;
     upsItem.isFragile = true;
-    upsItem.quantityOnHand = 10;
+    upsItem.quantityOnHand = 20;
 
     // Printing to console
     System.out.println("--- UPS Inventory System ---");
