@@ -32,6 +32,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    
  *    Package   -- shashank
  *    
+ *    tracking id
+ *    order id
+ *    weight
+ *    dimensions
+ *    count
+ *    package location
+ *    
  *    
  *    
  *    Inventory / Warehouse  -- Srujan 
