@@ -1,4 +1,6 @@
-public class CustomerSupport {
+package org.ups.model;
+
+public class UpsCustomerSupport {
 
     int customerId;
     String customerName;
