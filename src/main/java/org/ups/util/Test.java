@@ -48,5 +48,15 @@ public class Test {
 		
 		return "Test";
 	}
+	
+	public void addUser(String userName, String password){
+		// business logic 
+		userName = "12121212";
+		String lastName = "Sam";  // local varaible 
+		
+	    System.out.println(" test class method with 2 params");
+		
+		//status = true;   
+	}
 
 }

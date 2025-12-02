@@ -92,6 +92,9 @@ import org.ups.util.Test;
  *                  
  *                  
  *                 multiple inheritance from multiple classes are not possible 
+ *                 
+ *                 
+ *                 
  *                  
  *                 
  *                  
@@ -105,19 +108,87 @@ import org.ups.util.Test;
  *                
  *                
  *             Polymorphism 
+ *                method overloading --  
+ *                   saveUser(sting userName)
+ *                   
+ *                   saveUser(String userName, String address)
+ *                   
+ *                   
+ *                
+ *                method overiding   -- the data ;ogic willl be pulled from the very latest method 
+ *                    saveUser(String  userName)
+ *                      save user and validate age
+ *                    
+ *                    saveUser(String userName)
+ *                     save user with out any validation 
+ *                
+ *             
+ *             
+ *             
  *             Abstraction
- *             Encapsulation
+ *                hiding the data memebers visible to other classes 
+ *             
+ *             Encapsulation  
+ *             
+ *                wrappinf od data memebers and business logic togeteher 
+ *                POJO classes or entity classes 
  *             
  *             
  *             
  *             
  *      // Decision making statements 
  *          if 
+ *          if
+ *          if
+ *          if
+ *          if
+ *          
  *          else
  *          
  *          nested if 
  *          
  *          switch 
+ *          
+ *          if(condition){
+ *          business logic
+ *          }
+ *          
+ *           if(condition){
+ *              business logic
+ *          } else {
+ *             give a valid logic
+ *          }
+ *          
+ *           if(condition1){
+ *               if(condition 2){
+ *               business logic
+ *               }
+ *          } else {
+ *             give a valid logic
+ *          }
+ *          
+ *           if(condition1){
+ *               if(condition 2){
+ *               business logic
+ *               }
+ *          } else if(condition 3){
+ *             give a valid logic
+ *          } else {
+ *              none of your condition matches
+ *          }
+ *          
+ *          
+ *          switch(condition):
+ *          case 1: 
+ *          logic
+ *          break;
+ *          case 2:
+ *          logic
+ *          break;
+ *          case 3:
+ *          break;
+ *          default: 
+ *             logic 
  *          
  *      
  *         
@@ -136,6 +207,39 @@ import org.ups.util.Test;
  *          break statement
  *          
  *          continue statement
+ *          
+ *          
+ *          
+ *         Collections 
+ *           // Interfaces and classes 
+ *          
+ *           LIST   -- arraylist tjhe data is stored in arrays format 
+ *              will save duplicate data
+ *              will not follow any specific order 
+ *           SET   -- will not store any duplicate values and set maintains insertion order and also natural sorting order 
+ *             hascode and equals mechanism 
+ *             data member the set colelction will generate hascode that is of interger data type 
+ *             equals methos is going to validate the genetrated hascode the data type is boolean 
+ *             
+ *           
+ *           MAP   -- Key value format 
+ *              -- duplcaiutes -- maintains insertion order and also natural sorting order
+ *              hashmap
+ *              
+ *              
+ *              
+ *            Classes 
+ *                 LIST -- Arraylist and LinkedList
+ *                 SET  -- HashSet, LinkedHashSet and TreeSet
+ *                 MAP -- HashMap, LinkedHashMap and TreeMap
+ *                 
+ *                 
+ *              List<User> 
+ *          
+ *          
+ *          
+ *          
+ *          
  * 
  */
 
@@ -218,15 +322,31 @@ public class User extends Test{
 	}
 	
 	
-	void addUser(){
+	public void addUser(String userName){
 		// business logic 
 		userName = "12121212";
 		String lastName = "Sam";  // local varaible 
 		
+	    System.out.println("called a method with 1 params");
+
 	
 		
 		status = true;   
+		
+		
 	}
+	
+	public void addUser(String userName, String password){
+		// business logic 
+		userName = "12121212";
+		String lastName = "Sam";  // local varaible 
+		
+	    System.out.println(" user class called a method with 2 params");
+		
+		status = true;   
+	}
+//	
+	
 
 
 //	void testUser() {
