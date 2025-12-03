@@ -270,6 +270,19 @@ public class User extends Test{
 	
 	
 	
+	public User(Long userId, String userName, String password, String email, Integer phoneNumber, String role,
+			boolean status) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.status = status;
+	}
+
+
 	public Test getTest() {
 		return test;
 	}
