@@ -1,10 +1,12 @@
 package org.ups.model;
 
 public class Package {
-	Tracking Id
-	order Id
-	weight
-	dimensions
-	location
+	
+	
+	public Long TrackingId;
+	public String orderId;
+	public String weight;
+	public String dimensions;
+	public String location;
 	
 }
