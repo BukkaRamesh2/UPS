@@ -1,6 +1,7 @@
 package org.ups.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import org.ups.util.Test;
 
@@ -257,7 +258,7 @@ public class User extends Test{
 	 
 	private Integer phoneNumber;
 	
-	private Integer role;
+	private String role;
 	
 	private LocalDate myObj = LocalDate.now(); // Create a date object	
 	
@@ -322,6 +323,41 @@ public class User extends Test{
 	}
 	
 	
+	
+	
+	
+	public String getRole() {
+		return role;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, password, phoneNumber, role, status, userId, userName);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
+				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(role, other.role)
+				&& status == other.status && Objects.equals(userId, other.userId)
+				&& Objects.equals(userName, other.userName);
+	}
+
+
 	public void addUser(String userName){
 		// business logic 
 		userName = "12121212";
