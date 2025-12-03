@@ -1,3 +1,8 @@
+
+package org.ups.controller;
+
+public class UserController {
+
 package org.ups.controller;
 
 import org.ups.model.User;
@@ -13,7 +18,6 @@ public class UserController extends User{
 		UserController controller = new UserController();
 		controller.addUser("Samuel", "password");
 	}
-	
 	
 
 }
