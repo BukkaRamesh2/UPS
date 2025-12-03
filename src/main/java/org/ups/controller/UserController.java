@@ -1,9 +1,6 @@
 
 package org.ups.controller;
 
-public class UserController {
-
-package org.ups.controller;
 
 import org.ups.model.User;
 
