@@ -1,5 +1,19 @@
 package org.ups.service;
 
-public class BillingService {
+import org.ups.model.Billing;
+import java.util.List;
 
+public interface BillingService {
+
+    void addBill(Billing billing);
+
+    void updateBill(Billing billing);
+
+    Billing getBillById(int billingId);
+
+    Billing getBillByStatus(String status);
+
+    void deleteLastBill();
+
+    List<Billing> getAllBills();
 }
