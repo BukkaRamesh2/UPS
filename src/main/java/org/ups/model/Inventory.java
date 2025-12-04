@@ -4,55 +4,93 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 
-public class Inventory {
+public class Inventory extends InventoryCheck {
 
-    public long inventoryId;  // Public: Accessible anywhere
-    private String  supplierId;  // Private: Only accessible inside this class
-    protected String productName;  // Protected: Accessible in package + subclasses
+    private long inventoryId;
+    private String supplierId;
+    private String productName;
+    private double weight;
+    private boolean isFragile;
+    private int quantityOnHand;
+    private Date expirationDate;
 
-    // Default access (no keyword): Accessible only in package
-    double weight;
-    boolean isFragile;
-    int quantityOnHand;
-    Timestamp createdDate;
-    Date expirationDate;
+    public enum WeightUnit{LBS, KG, OUNCES}
+    private WeightUnit weightUnit;
 
-    enum WeightUnit{LBS, KG, OUNCES}
-    WeightUnit weightUnit;
-
-//Constructors
-
-    //Constructor A : Default
+    //Constructor : Default
     public Inventory() {
-        this.createdDate = new Timestamp(System.currentTimeMillis());
+        super();
     }
     // Constructor B : Parameterized
     public Inventory(long inventoryId, String supplierId, String productName, double weight) {
-        this(); // Calls Constructor A
+        this(); // Calls Constructor A to set the date
         this.inventoryId = inventoryId;
-        this.supplierId = supplierId;
         this.productName = productName;
         this.weight = weight;
     }
 
-    // Adding The Main Method:
-    public static void main(String[] args) {
-        // Creating object using Parameterized Constructor
-        Inventory upsItem = new Inventory(101, "SUP-001", "Macbook Pro", 3.5);
-
-        //Setting Other Variables
-        upsItem.weightUnit = WeightUnit.LBS;
-        upsItem.isFragile = true;
-        upsItem.quantityOnHand = 20;
-
-        // Printing to console
-        System.out.println("--- UPS Inventory System ---");
-        System.out.println("ID: " + upsItem.inventoryId);
-        System.out.println("Product: " + upsItem.productName);
-
-        // We can access 'supplierId' here because main is INSIDE the Inventory class
-        System.out.println("Supplier: " + upsItem.supplierId);
-
-        System.out.println("Weight: " + upsItem.weight + " " + upsItem.weightUnit);
+    public long getInventoryId() {
+        return inventoryId;
     }
+
+    public void setInventoryId(long inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public boolean isFragile() {
+        return isFragile;
+    }
+
+    public void setFragile(boolean isFragile) {
+        this.isFragile = isFragile;
+    }
+
+    public int getQuantityOnHand() {
+        return quantityOnHand;
+    }
+
+    public void setQuantityOnHand(int quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public WeightUnit getWeightUnit() {
+        return weightUnit;
+    }
+
+    public void setWeightUnit(WeightUnit weightUnit) {
+        this.weightUnit = weightUnit;
+    }
+
 }
