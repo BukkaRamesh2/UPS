@@ -12,7 +12,7 @@ public class Admin extends AdminInfo {
         this.adminId = adminId;             // public → accessible
         setAdminName(adminName);            // private in parent → use setter
         this.adminEmail = adminEmail;       // protected → accessible
-        this.department = department;       // default → same package → accessible
+        setDepartment(department);    
         setPhoneNumber(phoneNumber);        // private → use setter
         this.activeStatus = activeStatus;   // public → accessible
 
@@ -20,6 +20,20 @@ public class Admin extends AdminInfo {
     }
 
     public void printAdminDetails() {
+    	
+    	if (activeStatus) {
+    	    System.out.println("Status Check : Admin is ACTIVE");
+    	} else {
+    	    System.out.println("Status Check : Admin is INACTIVE");
+    	}
+
+    	
+    	if (department.equalsIgnoreCase("Finance")) {
+    	    System.out.println("Department Check : High Clearance Required");
+    	} else {
+    	    System.out.println("Department Check : Standard Clearance");
+    	}
+
         System.out.println("----- ADMIN DETAILS (Access Specifiers Demo) -----");
         System.out.println("Admin ID       : " + adminId);             
         System.out.println("Admin Name     : " + getAdminName());      
