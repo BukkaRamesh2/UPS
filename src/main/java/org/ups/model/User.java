@@ -1,6 +1,7 @@
 package org.ups.model;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 
 import org.ups.util.Test;
@@ -287,18 +288,30 @@ import org.ups.util.Test;
  *              throw new Exception();
  *              
  *            
- *             
+ *                Throwable  --- parent class  
+ *                
+ *                Exception is another calss inherited the Throwable
+ *                
+ *                CUstomer exception extends Exception
+ *                
+ *                
+ *          Compareable  -- interface -- singloe sorting is possible using comparabble interface
  *          
- * 
+              *    int compareTo(Entity){ 
+              *          
+ *          Comparator  -- interfaces  -- used to make the model get unique values 
+ *          
+ *           copmare() method and this can be capable having multiple sortings
+ *     
  */
 
 
-public class User extends Test{
+public class User extends Test implements Comparator<User> {
 	
 
 	private Long userId;   //default
 	
-	private String userName;
+	private String userName;   // sort the data based on user name
 	
 	private String password;
 	
@@ -457,7 +470,23 @@ public class User extends Test{
 		status = true;   
 	}
 //	
+
+	@Override
+	public int compareTo(User o) {
+		return this.userName.compareTo(o.userName);   // single sorting of username
+	}
+
+	@Override
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
+	@Override
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 //	void testUser() {

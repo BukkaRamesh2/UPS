@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import java.util.*;
 
+import org.ups.exception.InvalidUserException;
+import org.ups.exception.UserNotFoundException;
 import org.ups.model.User;
 
 public class UserServiceImpl implements UserService {
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
  // Basic fields
  public String streetName;
  public String zipCode;
+ 
+ 
+ 
 
  // Collections
  List<User> userList = new ArrayList<>();                // ArrayList
@@ -30,13 +35,18 @@ public class UserServiceImpl implements UserService {
  Map<Integer, User> orderedUserMap = new LinkedHashMap<>(); // LinkedHashMap
 
  @Override
- public void addUser(User user) {
+ public void addUser(User user){
      System.out.println("--- ADD USER ---");
-
+ try {
      if (user.getUserId() <= 0) {
          System.out.println("Invalid user id");
-         return;
+         String pass = String.valueOf(user.getUserId());
+         throw new InvalidUserException("Invalid user id");
+         //return;
      }
+ }catch(Exception e) {
+	 e.printStackTrace();
+ }
 
      System.out.println("Valid userId: " + user.getUserId());
 
@@ -58,7 +68,7 @@ public class UserServiceImpl implements UserService {
  }
 
  @Override
- public void updateUser(User user) {
+ public void updateUser(User user) throws UserNotFoundException{
 	 
 	 
 	 File file = new File("E://test//test.txt");
@@ -89,9 +99,12 @@ public class UserServiceImpl implements UserService {
      System.out.println("--- UPDATE USER ---");
 
      User existing = userMap.get(user.getUserId());
+     
+     
 
      if (existing == null) {
          System.out.println("User not found by ID");
+         
          return;
      }
 
@@ -195,10 +208,14 @@ User v6 = new User("Ram", 1123123L, true);  //
   service.addUser(u3);
   service.addUser(u4);
   service.addUser(u5);
-
+try {
   // UPDATE USER
   User updated = new User(101L,"Sam","password@123","john.doe@example.com",987654321,"ADMIN", true);
   service.updateUser(updated);
+  
+}catch(Exception e) {
+	e.printStackTrace();
+}
 
   // GET USER BY ROLE
   service.getUser("Admin");
