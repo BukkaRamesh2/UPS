@@ -1,5 +1,10 @@
 package org.ups.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 //Updated executable Java service with full CRUD and use of all collections
 //NOTE: This is a demo-style implementation
 
@@ -54,6 +59,33 @@ public class UserServiceImpl implements UserService {
 
  @Override
  public void updateUser(User user) {
+	 
+	 
+	 File file = new File("E://test//test.txt");
+	 
+	 
+		FileReader fr;
+		try {
+			fr = new FileReader(file);	
+			fr.read();
+			System.out.println("File is not closed");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();   
+			//throw new 
+		}  // here we got an exception
+	
+	 finally {
+		System.out.println("From finally block File is not closed");
+	}
+	 
+	 
+	 int numbers[] = {1,2,3,4,5};
+	 System.out.println(numbers[6]);
+	 
+	 
+	 
      System.out.println("--- UPDATE USER ---");
 
      User existing = userMap.get(user.getUserId());
@@ -95,6 +127,8 @@ public class UserServiceImpl implements UserService {
              System.out.println("Role not found in system");
      }
 
+ 
+     
      // Loop through user map to return the one matching role
      for (User u : userMap.values()) {
          if (u.getRole().equalsIgnoreCase(role)) {
@@ -117,7 +151,7 @@ public class UserServiceImpl implements UserService {
      }
 
      // Delete last user (example)
-     User removed = userList.remove(userList.size() - 1);
+     User removed = userList.remove(userList.size() - 1);  // 4 -1
      userMap.remove(removed.getUserId());
      sortedMap.remove(removed.getUserId());
      orderedUserMap.remove(removed.getUserId());
@@ -135,43 +169,54 @@ public class UserServiceImpl implements UserService {
 
      return userList;
  }
+ 
+ 
+ 
+//MAIN METHOD FOR TESTING
+
+
+public static void main(String[] args) {
+  
+UserServiceImpl service = new UserServiceImpl();   // object for 
+
+  // Create sample users
+User u1 = new User(101L,"john_doe","password@123","john.doe@example.com",987654321,"ADMIN", true);  
+User u2 = new User(102L,"Ramesh","password@123","john.doe@example.com",23123,"User", true);
+User u3 = new User(103L,"Kiran","password@123","john.doe@example.com",2423423,"Staff", true);
+User u4 = new User(104L,"Lokesh","password@123","john.doe@example.com",45345345,"User", true);
+User u5 = new User(105L,"Anita","password@123","john.doe@example.com",435345345,"ADMIN", true);
+
+
+User v6 = new User("Ram", 1123123L, true);  // 
+
+  // ADD USERS
+  service.addUser(u1);
+  service.addUser(u2);
+  service.addUser(u3);
+  service.addUser(u4);
+  service.addUser(u5);
+
+  // UPDATE USER
+  User updated = new User(101L,"Sam","password@123","john.doe@example.com",987654321,"ADMIN", true);
+  service.updateUser(updated);
+
+  // GET USER BY ROLE
+  service.getUser("Admin");
+
+  // DELETE LAST USER
+  service.deleteUser();
+
+  // GET ALL USERS
+  service.getAllUsers();
+} 
+
+
+
+ 
 }
 
 
-//  MAIN METHOD FOR TESTING
 
-
-/*public static void main(String[] args) {
-     UserServiceImpl service = new UserServiceImpl();
-
-     // Create sample users
-User u1 = new User(101L,"john_doe","password@123","john.doe@example.com",987654321,"ADMIN", true);
-User u2 = new User(101L,"Ramesh","password@123","john.doe@example.com",987654321,"ADMIN", true);
-User u3 = new User(101L,"Kiran","password@123","john.doe@example.com",987654321,"ADMIN", true);
-User u4 = new User(101L,"Lokesh","password@123","john.doe@example.com",987654321,"ADMIN", true);
-User u5 = new User(101L,"Anita","password@123","john.doe@example.com",987654321,"ADMIN", true);
-
-
-     // ADD USERS
-     service.addUser(u1);
-     service.addUser(u2);
-     service.addUser(u3);
-     service.addUser(u4);
-     service.addUser(u5);
-
-     // UPDATE USER
-     User updated = new User(101L,"Anita","password@123","john.doe@example.com",987654321,"ADMIN", true);
-     service.updateUser(updated);
-
-     // GET USER BY ROLE
-     service.getUser("Admin");
-
-     // DELETE LAST USER
-     service.deleteUser();
-
-     // GET ALL USERS
-     service.getAllUsers();
- } */
 
 //==========================================================
 //COLLECTIONS EXPLANATION & PERFORMANCE JUSTIFICATION

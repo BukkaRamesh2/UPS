@@ -239,7 +239,55 @@ import org.ups.util.Test;
  *          
  *          
  *          
+ *          // Exceptions 
  *          
+ *          Checked exceptions
+ *            compile time errors 
+ *            
+ *            the compile will gives the info when you declare the code most of the time
+ *          
+ *          Unchecked exceptions
+ *            run time errors
+ *            
+ *            the systeem will allows you to write the coide but when you execute the program the run time will chow you an error 
+ *            
+ *            
+ *            to handle any exception 
+ *            
+ *            
+ *            try and catch 
+ *            
+ *            try{
+ *            
+ *              business logic
+ *               file operations 
+ *               opened file 
+ *               write data in file 
+ *               unfortuna,ty we got an exception // it wont execute the next set of code comes out of the block 
+ *               file save 
+ *               file close 
+ *              
+ *            } catch(Exception e | FileNotFoundException | ArrarIndexOutOfBoundException ) {
+ *                e.printStackTrace();
+ *            }
+ *            
+ *            finally {
+ *               if exceptions occurs or does not occurs the finally block will execute for 100%
+ *              file.close();
+ *            }
+ *            
+ *            throws  
+ *            
+ *             followed by method name
+ *            
+ *            throw
+ *              will be called inside catch block 
+ *              this is usded most of the time for custom exceptions logic 
+ *              
+ *              throw new Exception();
+ *              
+ *            
+ *             
  *          
  * 
  */
@@ -268,7 +316,11 @@ public class User extends Test{
 	
 	
 	
-	
+	public User(String userName, Long userId, boolean status) {
+		this.userName = userName;
+		this.userId = userId;
+		this.status = status;
+	}
 	
 	public User(Long userId, String userName, String password, String email, Integer phoneNumber, String role,
 			boolean status) {
@@ -347,7 +399,17 @@ public class User extends Test{
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
+	
 
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+				+ ", phoneNumber=" + phoneNumber + ", role=" + role + ", myObj=" + myObj + ", status=" + status
+				+ ", test=" + test + "]";
+	}
 
 	@Override
 	public int hashCode() {

@@ -15,7 +15,7 @@ public class FraudDetection extends FraudCheck {
         this.amount = 0.0;
         this.location = "none";
         this.isBlocked = false;
-        this.count = 0;
+        //this.count = 0;
     }
 
     // Parameterized constructor
@@ -27,7 +27,7 @@ public class FraudDetection extends FraudCheck {
         this.amount = amount;
         this.location = location;
         this.isBlocked = isBlocked;
-        this.count = 0;
+        //this.count = 0;
     }
 
     // Overloaded constructor 
