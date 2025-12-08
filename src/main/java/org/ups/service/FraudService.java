@@ -5,7 +5,8 @@ import org.ups.model.FraudDetection;
 
 public interface FraudService {
     FraudDetection save(FraudDetection f);
+
     List<FraudDetection> findAll();
+
     FraudDetection findByCaseId(Integer caseId);
-    void deleteByCaseId(Integer caseId);
 }
