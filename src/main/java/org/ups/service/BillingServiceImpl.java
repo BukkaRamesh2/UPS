@@ -1,6 +1,7 @@
 package org.ups.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -8,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.ups.exception.BillingException;
+import org.ups.exception.InvalidBillingAmountException;
 import org.ups.model.Billing;
+import org.ups.util.BillingAmountComparator;
 
 public class BillingServiceImpl implements BillingService {
 
@@ -16,22 +20,28 @@ public class BillingServiceImpl implements BillingService {
     String zipCode = "78261";
 
     // Collections
-    List<Billing> billList = new ArrayList<>();                 // ArrayList
-    List<String> logHistory = new ArrayList<>();                // log messages
-    Set<String> statusSet = new HashSet<>();                    // HashSet
-    Map<Integer, Billing> billMap = new HashMap<>();            // HashMap
-    Map<Integer, Billing> orderedBillMap = new LinkedHashMap<>(); // LinkedHashMap
+    List<Billing> billList = new ArrayList<>();
+    List<String> logHistory = new ArrayList<>();
+    Set<String> statusSet = new HashSet<>();
+    Map<Integer, Billing> billMap = new HashMap<>();
+    Map<Integer, Billing> orderedBillMap = new LinkedHashMap<>();
 
     @Override
-    public void addBill(Billing bill) {
+    public void addBill(Billing bill) throws BillingException {
         System.out.println("=== ADD BILL ===");
 
+        if (bill == null) {
+            throw new BillingException("Bill cannot be null");
+        }
         if (bill.getBillingId() <= 0) {
-            System.out.println("Invalid billing id");
-            return;
+            throw new BillingException("Invalid billing id: " + bill.getBillingId());
+        }
+        if (bill.getBillingAmount() <= 0) {
+            throw new InvalidBillingAmountException(
+                    "Amount must be positive for bill " + bill.getBillingId());
         }
 
-        System.out.println("Valid billingId: " + bill.getBillingId());
+        System.out.println("Valid billing id: " + bill.getBillingId());
 
         // add to collections
         billList.add(bill);
@@ -40,63 +50,62 @@ public class BillingServiceImpl implements BillingService {
         billMap.put(bill.getBillingId(), bill);
         orderedBillMap.put(bill.getBillingId(), bill);
 
-        System.out.println("Bill added: " + bill);
         System.out.println("Current bills (ArrayList): " + billList);
         System.out.println("Current statuses (HashSet): " + statusSet);
     }
 
     @Override
-    public void updateBill(Billing bill) {
+    public void updateBill(Billing bill) throws BillingException {
         System.out.println("=== UPDATE BILL ===");
+
+        if (bill == null) {
+            throw new BillingException("Bill cannot be null");
+        }
 
         Billing existing = billMap.get(bill.getBillingId());
         if (existing == null) {
-            System.out.println("Bill not found by id");
-            return;
+            throw new BillingException("Bill not found for id: " + bill.getBillingId());
         }
 
         existing.setInvoiceNumber(bill.getInvoiceNumber());
         existing.setPaymentMethod(bill.getPaymentMethod());
         existing.setBillingStatus(bill.getBillingStatus());
-        existing.setCreatedDate(bill.getCreatedDate());
-        existing.setDueDate(bill.getDueDate());
+        existing.setBillingAmount(bill.getBillingAmount());
+        existing.setTaxAmount(bill.getTaxAmount());
+        existing.setTotalAmount(bill.getTotalAmount());
 
         System.out.println("Bill updated: " + existing);
     }
 
     @Override
-    public Billing getBillById(int billingId) {
-        System.out.println("=== GET BILL BY ID === " + billingId);
-        Billing b = billMap.get(billingId);
-        if (b == null) {
-            System.out.println("No bill found with id " + billingId);
+    public Billing getBillById(int billingId) throws BillingException {
+        System.out.println("=== GET BILL BY ID ===");
+
+        Billing bill = billMap.get(billingId);
+        if (bill == null) {
+            throw new BillingException("No bill found for id: " + billingId);
         }
-        return b;
+        return bill;
     }
 
     @Override
-    public Billing getBillByStatus(String status) {
-        System.out.println("=== GET BILL BY STATUS === " + status);
+    public Billing getBillByStatus(String status) throws BillingException {
+        System.out.println("=== GET BILL BY STATUS ===");
 
         for (Billing b : billList) {
-            if (b.getBillingStatus() != null &&
-                b.getBillingStatus().equalsIgnoreCase(status)) {
-                System.out.println("Found bill: " + b);
+            if (b.getBillingStatus().equalsIgnoreCase(status)) {
                 return b;
             }
         }
-
-        System.out.println("No bill found with status " + status);
-        return null;
+        throw new BillingException("No bill with status: " + status);
     }
 
     @Override
-    public void deleteLastBill() {
+    public void deleteLastBill() throws BillingException {
         System.out.println("=== DELETE LAST BILL ===");
 
         if (billList.isEmpty()) {
-            System.out.println("No bills to delete");
-            return;
+            throw new BillingException("No bills to delete");
         }
 
         Billing removed = billList.remove(billList.size() - 1);
@@ -113,5 +122,19 @@ public class BillingServiceImpl implements BillingService {
             System.out.println("Bill: " + b);
         }
         return billList;
+    }
+
+    @Override
+    public List<Billing> getAllBillsSortedById() {
+        List<Billing> copy = new ArrayList<>(billList);
+        Collections.sort(copy);               // uses Comparable (Billing.compareTo)
+        return copy;
+    }
+
+    @Override
+    public List<Billing> getAllBillsSortedByAmount() {
+        List<Billing> copy = new ArrayList<>(billList);
+        copy.sort(new BillingAmountComparator()); // uses Comparator
+        return copy;
     }
 }
