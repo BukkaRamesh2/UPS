@@ -93,4 +93,23 @@ public class Inventory extends InventoryCheck {
         this.weightUnit = weightUnit;
     }
 
+    // added hashcodes
+
+    @Override
+    public int hashCode() {
+        // Generates a unique hash based on ID
+        return java.util.Objects.hash(inventoryId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Checks if two objects are legally "equal"
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Inventory other = (Inventory) obj;
+        return inventoryId == other.inventoryId;
+    }
 }
+
+
