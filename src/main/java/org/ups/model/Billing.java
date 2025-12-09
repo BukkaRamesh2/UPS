@@ -1,10 +1,21 @@
 package org.ups.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "billing")
 public class Billing extends BillingInfo implements Comparable<Billing> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int billingId;
+
     private int shippingId;
     private int userId;
 
@@ -26,8 +37,6 @@ public class Billing extends BillingInfo implements Comparable<Billing> {
                    String paymentMethod, String billingStatus,
                    String createdDate, String dueDate) {
 
-        super(billingAmount, taxAmount, totalAmount);
-
         this.billingId = billingId;
         this.shippingId = shippingId;
         this.userId = userId;
@@ -36,34 +45,14 @@ public class Billing extends BillingInfo implements Comparable<Billing> {
         this.billingStatus = billingStatus;
         this.createdDate = createdDate;
         this.dueDate = dueDate;
-        this.status = true;
 
+        this.billingAmount = billingAmount;
+        this.taxAmount = taxAmount;
+        this.totalAmount = totalAmount;
+
+        this.status = true;
         System.out.println("Billing parameterized constructor is called");
     }
-
-    public void testBilling() {
-        billingAmount = 500.0;
-        taxAmount = 50.0;
-        totalAmount = 550.0;
-        status = true;
-    }
-
-    public void printBillSummary() {
-        System.out.println("------------- BILL SUMMARY -------------");
-        System.out.println("Shipping ID  : " + shippingId);
-        System.out.println("User ID      : " + userId);
-        System.out.println("Invoice No   : " + invoiceNumber);
-        System.out.println("Amount       : " + billingAmount);
-        System.out.println("Tax          : " + taxAmount);
-        System.out.println("Total        : " + totalAmount);
-        System.out.println("Payment Mode : " + paymentMethod);
-        System.out.println("Status       : " + billingStatus);
-        System.out.println("Created Date : " + createdDate);
-        System.out.println("Due Date     : " + dueDate);
-        System.out.println("----------------------------------------");
-    }
-
-    // ---------- getters & setters ----------
 
     public int getBillingId() {
         return billingId;
@@ -137,23 +126,50 @@ public class Billing extends BillingInfo implements Comparable<Billing> {
         this.status = status;
     }
 
-    // ---------- toString / equals / hashCode ----------
+    public void testBilling() {
+        billingAmount = 500.0;
+        taxAmount = 50.0;
+        totalAmount = 550.0;
+        status = true;
+    }
+
+    public void printBillSummary() {
+        System.out.println("------------- BILL SUMMARY -------------");
+        System.out.println("Billing ID   : " + billingId);
+        System.out.println("Shipping ID  : " + shippingId);
+        System.out.println("User ID      : " + userId);
+        System.out.println("Invoice No   : " + invoiceNumber);
+        System.out.println("Amount       : " + billingAmount);
+        System.out.println("Tax          : " + taxAmount);
+        System.out.println("Total        : " + totalAmount);
+        System.out.println("Payment Mode : " + paymentMethod);
+        System.out.println("Status       : " + billingStatus);
+        System.out.println("Created Date : " + createdDate);
+        System.out.println("Due Date     : " + dueDate);
+        System.out.println("----------------------------------------");
+    }
+
+    @Override
+    public int compareTo(Billing other) {
+        return Integer.compare(this.billingId, other.billingId);
+    }
 
     @Override
     public String toString() {
-        return "Billing [billingId=" + billingId +
+        return "Billing{" +
+                "billingId=" + billingId +
                 ", shippingId=" + shippingId +
                 ", userId=" + userId +
-                ", invoiceNumber=" + invoiceNumber +
-                ", amount=" + billingAmount +
+                ", invoiceNumber='" + invoiceNumber + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", billingStatus='" + billingStatus + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", dueDate='" + dueDate + '\'' +
+                ", billingAmount=" + billingAmount +
                 ", taxAmount=" + taxAmount +
                 ", totalAmount=" + totalAmount +
-                ", paymentMethod=" + paymentMethod +
-                ", billingStatus=" + billingStatus +
-                ", createdDate=" + createdDate +
-                ", dueDate=" + dueDate +
                 ", status=" + status +
-                "]";
+                '}';
     }
 
     @Override
@@ -167,13 +183,5 @@ public class Billing extends BillingInfo implements Comparable<Billing> {
     @Override
     public int hashCode() {
         return Objects.hash(billingId);
-    }
-
-    // ---------- Comparable: ONE compareTo only ----------
-
-    @Override
-    public int compareTo(Billing other) {
-        // natural ordering = by billingId
-        return Integer.compare(this.billingId, other.billingId);
     }
 }
