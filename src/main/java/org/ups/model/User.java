@@ -1,6 +1,7 @@
 package org.ups.model;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 
 import org.ups.util.Test;
@@ -239,18 +240,78 @@ import org.ups.util.Test;
  *          
  *          
  *          
+ *          // Exceptions 
  *          
+ *          Checked exceptions
+ *            compile time errors 
+ *            
+ *            the compile will gives the info when you declare the code most of the time
  *          
- * 
+ *          Unchecked exceptions
+ *            run time errors
+ *            
+ *            the systeem will allows you to write the coide but when you execute the program the run time will chow you an error 
+ *            
+ *            
+ *            to handle any exception 
+ *            
+ *            
+ *            try and catch 
+ *            
+ *            try{
+ *            
+ *              business logic
+ *               file operations 
+ *               opened file 
+ *               write data in file 
+ *               unfortuna,ty we got an exception // it wont execute the next set of code comes out of the block 
+ *               file save 
+ *               file close 
+ *              
+ *            } catch(Exception e | FileNotFoundException | ArrarIndexOutOfBoundException ) {
+ *                e.printStackTrace();
+ *            }
+ *            
+ *            finally {
+ *               if exceptions occurs or does not occurs the finally block will execute for 100%
+ *              file.close();
+ *            }
+ *            
+ *            throws  
+ *            
+ *             followed by method name
+ *            
+ *            throw
+ *              will be called inside catch block 
+ *              this is usded most of the time for custom exceptions logic 
+ *              
+ *              throw new Exception();
+ *              
+ *            
+ *                Throwable  --- parent class  
+ *                
+ *                Exception is another calss inherited the Throwable
+ *                
+ *                CUstomer exception extends Exception
+ *                
+ *                
+ *          Compareable  -- interface -- singloe sorting is possible using comparabble interface
+ *          
+              *    int compareTo(Entity){ 
+              *          
+ *          Comparator  -- interfaces  -- used to make the model get unique values 
+ *          
+ *           copmare() method and this can be capable having multiple sortings
+ *     
  */
 
 
-public class User extends Test{
+public class User extends Test implements Comparator<User> {
 	
 
 	private Long userId;   //default
 	
-	private String userName;
+	private String userName;   // sort the data based on user name
 	
 	private String password;
 	
@@ -268,8 +329,25 @@ public class User extends Test{
 	
 	
 	
+	public User(String userName, Long userId, boolean status) {
+		this.userName = userName;
+		this.userId = userId;
+		this.status = status;
+	}
 	
-	
+	public User(Long userId, String userName, String password, String email, Integer phoneNumber, String role,
+			boolean status) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.status = status;
+	}
+
+
 	public Test getTest() {
 		return test;
 	}
@@ -334,7 +412,17 @@ public class User extends Test{
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
+	
 
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+				+ ", phoneNumber=" + phoneNumber + ", role=" + role + ", myObj=" + myObj + ", status=" + status
+				+ ", test=" + test + "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -382,7 +470,23 @@ public class User extends Test{
 		status = true;   
 	}
 //	
+
+	@Override
+	public int compareTo(User o) {
+		return this.userName.compareTo(o.userName);   // single sorting of username
+	}
+
+	@Override
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
+	@Override
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 //	void testUser() {
