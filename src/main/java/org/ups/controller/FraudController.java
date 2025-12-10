@@ -11,7 +11,7 @@ public class FraudController {
 
     public static void main(String[] args) {
 
-        FraudService service = new FraudServiceImpl();
+        FraudServiceImpl service = new FraudServiceImpl();
 
         FraudDetection a = new FraudDetection(null, "Shashank", 12000.0, "USA");
         FraudDetection b = new FraudDetection(null, "Alice", 500.0, "India");
@@ -26,10 +26,12 @@ public class FraudController {
         for (FraudDetection f : all)
             System.out.println(f);
 
-        // Sort using Comparable
         Collections.sort(all);
         System.out.println("\nSorted by amount (descending):");
         for (FraudDetection f : all)
             System.out.println(f);
+
+        int highCount = service.countCasesAbove(5000);
+        System.out.println("\nCases above 5000: " + highCount);
     }
 }

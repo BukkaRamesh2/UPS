@@ -2,11 +2,14 @@ package org.ups.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import org.ups.model.FraudDetection;
 
 public class FraudRepositoryImpl implements FraudRepository {
 
     private final List<FraudDetection> store = new ArrayList<>();
+    private Map<Integer, FraudDetection> mapStore = new HashMap<>();
 
     @Override
     public FraudDetection save(FraudDetection f) {
