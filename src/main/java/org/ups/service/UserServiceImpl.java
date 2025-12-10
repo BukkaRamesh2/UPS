@@ -10,10 +10,14 @@ import java.io.IOException;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.ups.exception.InvalidUserException;
 import org.ups.exception.UserNotFoundException;
 import org.ups.model.User;
+import org.ups.repository.UserRepository;
 
+@Service
 public class UserServiceImpl implements UserService {
 
  // Basic fields
@@ -21,6 +25,8 @@ public class UserServiceImpl implements UserService {
  public String zipCode;
  
  
+ @Autowired
+ UserRepository userRepository;
  
 
  // Collections
@@ -65,6 +71,9 @@ public class UserServiceImpl implements UserService {
      System.out.println("Current Users in ArrayList: " + userList);
      System.out.println("Current Roles (HashSet): " + roleSet);
      System.out.println("Current Names (TreeSet): " + sortedNames);
+     
+     userRepository.save(user); 
+     
  }
 
  @Override
@@ -120,6 +129,8 @@ public class UserServiceImpl implements UserService {
      existing.setRole(user.getRole());
 
      System.out.println("User updated: " + existing);
+     
+     userRepository.save(user);
  }
 
  @Override
@@ -146,7 +157,7 @@ public class UserServiceImpl implements UserService {
      for (User u : userMap.values()) {
          if (u.getRole().equalsIgnoreCase(role)) {
              System.out.println("User found: " + u);
-             return u;
+             return userRepository.findById(u.getUserId()).orElse(null);
          }
      }
 
@@ -155,12 +166,11 @@ public class UserServiceImpl implements UserService {
  }
 
  @Override
- public void deleteUser() {
+ public void deleteUser(Long userId) {
      System.out.println("--- DELETE USER ---");
 
      if (userList.isEmpty()) {
          System.out.println("No users to delete");
-         return;
      }
 
      // Delete last user (example)
@@ -170,6 +180,7 @@ public class UserServiceImpl implements UserService {
      orderedUserMap.remove(removed.getUserId());
 
      System.out.println("Deleted user: " + removed);
+     userRepository.deleteById(userId);;
  }
 
  @Override
@@ -180,7 +191,8 @@ public class UserServiceImpl implements UserService {
          System.out.println("User: " + u);
      }
 
-     return userList;
+     //return userList;
+     return userRepository.findAll();
  }
  
  
@@ -188,44 +200,44 @@ public class UserServiceImpl implements UserService {
 //MAIN METHOD FOR TESTING
 
 
-public static void main(String[] args) {
-  
-UserServiceImpl service = new UserServiceImpl();   // object for 
-
-  // Create sample users
-User u1 = new User(101L,"john_doe","password@123","john.doe@example.com",987654321,"ADMIN", true);  
-User u2 = new User(102L,"Ramesh","password@123","john.doe@example.com",23123,"User", true);
-User u3 = new User(103L,"Kiran","password@123","john.doe@example.com",2423423,"Staff", true);
-User u4 = new User(104L,"Lokesh","password@123","john.doe@example.com",45345345,"User", true);
-User u5 = new User(105L,"Anita","password@123","john.doe@example.com",435345345,"ADMIN", true);
-
-
-User v6 = new User("Ram", 1123123L, true);  // 
-
-  // ADD USERS
-  service.addUser(u1);
-  service.addUser(u2);
-  service.addUser(u3);
-  service.addUser(u4);
-  service.addUser(u5);
-try {
-  // UPDATE USER
-  User updated = new User(101L,"Sam","password@123","john.doe@example.com",987654321,"ADMIN", true);
-  service.updateUser(updated);
-  
-}catch(Exception e) {
-	e.printStackTrace();
-}
-
-  // GET USER BY ROLE
-  service.getUser("Admin");
-
-  // DELETE LAST USER
-  service.deleteUser();
-
-  // GET ALL USERS
-  service.getAllUsers();
-} 
+//public static void main(String[] args) {
+//  
+//UserServiceImpl service = new UserServiceImpl();   // object for 
+//
+//  // Create sample users
+//User u1 = new User(101L,"john_doe","password@123","john.doe@example.com",987654321,"ADMIN", true);  
+//User u2 = new User(102L,"Ramesh","password@123","john.doe@example.com",23123,"User", true);
+//User u3 = new User(103L,"Kiran","password@123","john.doe@example.com",2423423,"Staff", true);
+//User u4 = new User(104L,"Lokesh","password@123","john.doe@example.com",45345345,"User", true);
+//User u5 = new User(105L,"Anita","password@123","john.doe@example.com",435345345,"ADMIN", true);
+//
+//
+//User v6 = new User("Ram", 1123123L, true);  // 
+//
+//  // ADD USERS
+//  service.addUser(u1);
+//  service.addUser(u2);
+//  service.addUser(u3);
+//  service.addUser(u4);
+//  service.addUser(u5);
+//try {
+//  // UPDATE USER
+//  User updated = new User(101L,"Sam","password@123","john.doe@example.com",987654321,"ADMIN", true);
+//  service.updateUser(updated);
+//  
+//}catch(Exception e) {
+//	e.printStackTrace();
+//}
+//
+//  // GET USER BY ROLE
+//  service.getUser("Admin");
+//
+//  // DELETE LAST USER
+//  //service.deleteUser();
+//
+//  // GET ALL USERS
+//  service.getAllUsers();
+//} 
 
 
 

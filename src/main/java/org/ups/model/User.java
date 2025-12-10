@@ -6,6 +6,16 @@ import java.util.Objects;
 
 import org.ups.util.Test;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /*
  * 
  *   class
@@ -306,9 +316,16 @@ import org.ups.util.Test;
  */
 
 
-public class User extends Test implements Comparator<User> {
-	
 
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Comparator<User> {
+	
+    @Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userId;   //default
 	
 	private String userName;   // sort the data based on user name
@@ -325,7 +342,7 @@ public class User extends Test implements Comparator<User> {
 	
 	private boolean status;   // local or global 
 	
-	Test test;   // aggregation
+	//Test test;   // aggregation
 	
 	
 	
@@ -348,14 +365,14 @@ public class User extends Test implements Comparator<User> {
 	}
 
 
-	public Test getTest() {
-		return test;
-	}
-
-
-	public void setTest(Test test) {
-		this.test = test;
-	}
+//	public Test getTest() {
+//		return test;
+//	}
+//
+//
+//	public void setTest(Test test) {
+//		this.test = test;
+//	}
 
 
 	public User() {
@@ -415,13 +432,46 @@ public class User extends Test implements Comparator<User> {
 	
 	
 	
+	
 
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(Integer phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public LocalDate getMyObj() {
+		return myObj;
+	}
+
+	public void setMyObj(LocalDate myObj) {
+		this.myObj = myObj;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
 				+ ", phoneNumber=" + phoneNumber + ", role=" + role + ", myObj=" + myObj + ", status=" + status
-				+ ", test=" + test + "]";
+				+ "]";
 	}
 
 	@Override
@@ -446,47 +496,53 @@ public class User extends Test implements Comparator<User> {
 	}
 
 
-	public void addUser(String userName){
-		// business logic 
-		userName = "12121212";
-		String lastName = "Sam";  // local varaible 
-		
-	    System.out.println("called a method with 1 params");
-
-	
-		
-		status = true;   
-		
-		
-	}
-	
-	public void addUser(String userName, String password){
-		// business logic 
-		userName = "12121212";
-		String lastName = "Sam";  // local varaible 
-		
-	    System.out.println(" user class called a method with 2 params");
-		
-		status = true;   
-	}
+//	public void addUser(String userName){
+//		// business logic 
+//		userName = "12121212";
+//		String lastName = "Sam";  // local varaible 
+//		
+//	    System.out.println("called a method with 1 params");
+//
+//	
+//		
+//		status = true;   
+//		
+//		
+//	}
+//	
+//	public void addUser(String userName, String password){
+//		// business logic 
+//		userName = "12121212";
+//		String lastName = "Sam";  // local varaible 
+//		
+//	    System.out.println(" user class called a method with 2 params");
+//		
+//		status = true;   
+//	}
 //	
 
 	@Override
-	public int compareTo(User o) {
-		return this.userName.compareTo(o.userName);   // single sorting of username
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	@Override
-	public int compare(User o1, User o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	@Override
-	public int compare(User o1, User o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	@Override
+//	public int compareTo(User o) {
+//		return this.userName.compareTo(o.userName);   // single sorting of username
+//	}
+//
+//	@Override
+//	public int compare(User o1, User o2) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//	
+//	@Override
+//	public int compare(User o1, User o2) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 
 //	void testUser() {

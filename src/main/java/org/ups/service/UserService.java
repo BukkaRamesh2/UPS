@@ -19,7 +19,7 @@ public interface UserService {
 	public User getUser(String role);
 	
 	
-	public void deleteUser();
+	public void deleteUser(Long userId);
 	
 	public List<User> getAllUsers();
 	

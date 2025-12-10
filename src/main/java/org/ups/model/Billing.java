@@ -1,7 +1,12 @@
 package org.ups.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Billing extends BillingInfo {
 
+	@Id
     private int billingId;
     private int shippingId;
     private int userId;

@@ -3,7 +3,7 @@ package org.ups;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.ups.model.User;
-import org.ups.util.Test;
+
 
 
 
@@ -67,7 +67,12 @@ import org.ups.util.Test;
  *    
  *    
  *    
- * 
+ *     @SpringBootApplication
+           
+           @AutoConfiguration
+           @ComponentScan
+           @
+          
  * 
  * 
  * 
@@ -82,7 +87,7 @@ public class UpsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UpsApplication.class, args);
 		String name = "sadasd";
-		Test user = new Test(name);  // create new object default consructopr 
+		//Test user = new Test(name);  // create new object default consructopr 
 		
 	}
 
