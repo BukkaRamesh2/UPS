@@ -1,10 +1,9 @@
 package org.ups.model;
 
 import java.util.Date;
-import java.sql.Timestamp;
+import java.util.Objects;
 
-
-public class Inventory extends InventoryCheck {
+public class Inventory extends InventoryCheck implements Comparable<Inventory> {
 
     private long inventoryId;
     private String supplierId;
@@ -14,102 +13,70 @@ public class Inventory extends InventoryCheck {
     private int quantityOnHand;
     private Date expirationDate;
 
-    public enum WeightUnit{LBS, KG, OUNCES}
+    public enum WeightUnit {LBS, KG, OUNCES}
     private WeightUnit weightUnit;
 
-    //Constructor : Default
     public Inventory() {
         super();
     }
-    // Constructor B : Parameterized
+
     public Inventory(long inventoryId, String supplierId, String productName, double weight) {
-        this(); // Calls Constructor A to set the date
+        this();
         this.inventoryId = inventoryId;
-        this.productName = productName;
-        this.weight = weight;
-    }
-
-    public long getInventoryId() {
-        return inventoryId;
-    }
-
-    public void setInventoryId(long inventoryId) {
-        this.inventoryId = inventoryId;
-    }
-
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
         this.supplierId = supplierId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public boolean isFragile() {
-        return isFragile;
-    }
+    // --- Getters and Setters ---
+    public long getInventoryId() { return inventoryId; }
+    public void setInventoryId(long inventoryId) { this.inventoryId = inventoryId; }
 
-    public void setFragile(boolean isFragile) {
-        this.isFragile = isFragile;
-    }
+    public String getSupplierId() { return supplierId; }
+    public void setSupplierId(String supplierId) { this.supplierId = supplierId; }
 
-    public int getQuantityOnHand() {
-        return quantityOnHand;
-    }
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
 
-    public void setQuantityOnHand(int quantityOnHand) {
-        this.quantityOnHand = quantityOnHand;
-    }
+    public double getWeight() { return weight; }
+    public void setWeight(double weight) { this.weight = weight; }
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+    public boolean isFragile() { return isFragile; }
+    public void setFragile(boolean isFragile) { this.isFragile = isFragile; }
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+    public int getQuantityOnHand() { return quantityOnHand; }
+    public void setQuantityOnHand(int quantityOnHand) { this.quantityOnHand = quantityOnHand; }
 
-    public WeightUnit getWeightUnit() {
-        return weightUnit;
-    }
+    public Date getExpirationDate() { return expirationDate; }
+    public void setExpirationDate(Date expirationDate) { this.expirationDate = expirationDate; }
 
-    public void setWeightUnit(WeightUnit weightUnit) {
-        this.weightUnit = weightUnit;
-    }
-
-    // added hashcodes
+    public WeightUnit getWeightUnit() { return weightUnit; }
+    public void setWeightUnit(WeightUnit weightUnit) { this.weightUnit = weightUnit; }
 
     @Override
     public int hashCode() {
-        // Generates a unique hash based on ID
-        return java.util.Objects.hash(inventoryId);
+        return Objects.hash(inventoryId);
     }
 
     @Override
     public boolean equals(Object obj) {
-        // Checks if two objects are legally "equal"
         if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Inventory other = (Inventory) obj;
         return inventoryId == other.inventoryId;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + inventoryId + " | Name: " + productName + " | Weight: " + weight;
+    }
+
+    // --- SORTING LOGIC ---
+    @Override
+    public int compareTo(Inventory other) {
+        if (this.productName == null || other.productName == null) {
+            return 0;
+        }
+        return this.productName.compareTo(other.productName);
+    }
 }
-
-

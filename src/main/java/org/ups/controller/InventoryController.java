@@ -3,50 +3,65 @@ package org.ups.controller;
 import org.ups.model.Inventory;
 import org.ups.service.InventoryService;
 import org.ups.service.InventoryServiceImpl;
+import org.ups.exception.InvalidInventoryException;
+import org.ups.exception.InventoryNotFoundException;
+import org.ups.util.InventoryWeightComparator;
+
+import java.util.Collections;
+import java.util.List;
 
 public class InventoryController {
 
     public static void main(String[] args) {
-        // Create Service Instance
         InventoryService inventoryService = new InventoryServiceImpl();
+        System.out.println("---- UPS Inventory System (Exceptions & Sorting) ----");
 
-        System.out.println("---- Starting UPS Inventory System (Collections Edition) ---");
+        // --- 1. ADD INVENTORY (Throws InvalidInventoryException) ---
+        try {
+            // Valid Adds
+            inventoryService.addInventory(new Inventory(102, "SUP-B", "Zebra Printer", 15.0));
+            inventoryService.addInventory(new Inventory(101, "SUP-A", "Apple Macbook", 2.5));
+            inventoryService.addInventory(new Inventory(103, "SUP-C", "Cardboard Box", 0.5));
 
-        // 1. ADD VALID INVENTORY
-        Inventory item1 = new Inventory(101, "SUP-A", "Dell Laptop", 2.5);
-        item1.setQuantityOnHand(50);
-        inventoryService.addInventory(item1);
+            // Invalid Add (Negative Weight) - Uncomment to test
+            // inventoryService.addInventory(new Inventory(104, "SUP-D", "Bad Item", -10.0));
 
-        Inventory item2 = new Inventory(102, "SUP-B", "Office Chair", 15.0);
-        inventoryService.addInventory(item2);
+        } catch (InvalidInventoryException e) {
+            System.err.println("ADD ERROR: " + e.getMessage());
+        }
 
-        // 2. ADD INVALID INVENTORY (Testing Validations)
-        System.out.println("\n--- Testing Validations ---");
-        Inventory item3 = new Inventory(103, "SUP-C", "Bad Item", -5.0); // Negative Weight
-        inventoryService.addInventory(item3);
+        // --- 2. UPDATE/DELETE INVENTORY (Throws InventoryNotFoundException) ---
+        try {
+            // Invalid Update (Ghost Item) - Uncomment to test
+            // inventoryService.updateInventory(new Inventory(999, "SUP-Z", "Ghost", 10.0));
 
-        Inventory item4 = new Inventory(101, "SUP-A", "Duplicate Laptop", 2.5); // Duplicate ID
-        inventoryService.addInventory(item4);
+            // Example of a valid update (will throw exception if ID 102 doesn't exist)
+            // inventoryService.updateInventory(new Inventory(102, "SUP-B", "Zebra Printer Updated", 15.0));
 
-        // 3. UPDATE INVENTORY (Testing Switch & If/Else Logic)
-        System.out.println("\n--- Testing Update Logic ---");
+        } catch (InventoryNotFoundException e) {
+            System.err.println("UPDATE ERROR: " + e.getMessage());
+        }
 
-        // Update item 101 (Supplier A - Should trigger Priority message)
-        Inventory updateItem1 = new Inventory(101, "SUP-A", "Dell XPS Laptop", 2.5);
-        inventoryService.updateInventory(updateItem1);
+        // --- 3. SORTING DEMO ---
+        List<Inventory> currentList = inventoryService.getAllInventory();
 
-        // Update item 102 (Supplier B - Should trigger Standard message)
-        Inventory updateItem2 = new Inventory(102, "SUP-B", "Ergonomic Chair", 15.0);
-        inventoryService.updateInventory(updateItem2);
+        System.out.println("\n--- Before Sorting ---");
+        printList(currentList);
 
-        // Update Non-Existent Item (Should trigger Error)
-        Inventory fakeItem = new Inventory(999, "SUP-Z", "Ghost Item", 10.0);
-        inventoryService.updateInventory(fakeItem);
+        // A. Natural Sorting (Comparable) - Sorts by Name
+        Collections.sort(currentList);
+        System.out.println("\n--- After Comparable Sort (By Name) ---");
+        printList(currentList);
 
-        // 4. PRINT FINAL LIST
-        System.out.println("\n--- Final Database Status ---");
-        for(Inventory inv : inventoryService.getAllInventory()) {
-            System.out.println("ID: " + inv.getInventoryId() + " | Name: " + inv.getProductName());
+        // B. Custom Sorting (Comparator) - Sorts by Weight
+        Collections.sort(currentList, new InventoryWeightComparator());
+        System.out.println("\n--- After Comparator Sort (By Weight) ---");
+        printList(currentList);
+    }
+
+    private static void printList(List<Inventory> list) {
+        for (Inventory inv : list) {
+            System.out.println(inv);
         }
     }
 }
