@@ -5,9 +5,9 @@ import java.util.*;
 
 public class InventoryServiceImpl implements InventoryService {
 
-    private List<Inventory> inventoryList = new ArrayList<>();
-    private Set<Long> inventoryIdSet = new HashSet<>();
-    private Map<Long, Inventory> inventoryMap = new HashMap<>();
+    private final List<Inventory> inventoryList = new ArrayList<>();
+    private final Set<Long> inventoryIdSet = new HashSet<>();
+    private final Map<Long, Inventory> inventoryMap = new HashMap<>();
 
     @Override
     public void addInventory(Inventory inventory) {
@@ -24,13 +24,11 @@ public class InventoryServiceImpl implements InventoryService {
             return;
         }
 
-        // 3. Check for Duplicates using Map
-        if (inventoryMap.containsKey(inventory.getInventoryId())) {
+        if (inventoryIdSet.contains(inventory.getInventoryId())) {
             System.out.println("Error: Inventory ID " + inventory.getInventoryId() + " already exists.");
             return;
         }
 
-        // --- ADD TO COLLECTIONS ---
         inventoryList.add(inventory);
         inventoryMap.put(inventory.getInventoryId(), inventory);
         inventoryIdSet.add(inventory.getInventoryId());
@@ -40,11 +38,12 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void updateInventory(Inventory inventory) {
+        //Check if item exists in Map first
         Inventory existingItem = inventoryMap.get(inventory.getInventoryId());
 
         if (existingItem != null) {
 
-            // 1. NESTED IF: for High Value items
+            // 1. NESTED IF: High Value items
             if (inventory.getWeight() > 100) {
                 System.out.println("Notice: Updating a heavy freight item.");
             }
@@ -67,23 +66,33 @@ public class InventoryServiceImpl implements InventoryService {
                         System.out.println("Update Policy: Unknown Supplier - Check Contract.");
                 }
             }
+
+            // 3. Update the Map (fast lookup)
             inventoryMap.put(inventory.getInventoryId(), inventory);
+
+            // 4. Update the List to keep data consistent with the Map
+            for (int i = 0; i < inventoryList.size(); i++) {
+                if (inventoryList.get(i).getInventoryId() == inventory.getInventoryId()) {
+                    inventoryList.set(i, inventory); // Replaces the old object at index i
+                    break; // Exit loop once found
+                }
+            }
 
             System.out.println("Inventory Item " + inventory.getInventoryId() + " Updated Successfully.");
 
         } else {
-            // Else block for checking if item exists
             System.out.println("Error: Cannot Update. Item ID " + inventory.getInventoryId() + " not found.");
         }
     }
 
     @Override
     public void deleteInventory(long inventoryId) {
+        // We can check the Map or Set here; checking Map is standard for deletions
         if (inventoryMap.containsKey(inventoryId)) {
-            // Remove from Map
+
             inventoryMap.remove(inventoryId);
-            // Remove from Set
             inventoryIdSet.remove(inventoryId);
+
             // Remove from List using lambda
             inventoryList.removeIf(i -> i.getInventoryId() == inventoryId);
 
