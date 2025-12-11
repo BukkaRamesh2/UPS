@@ -7,7 +7,7 @@ import org.ups.model.UpsCustomerSupport;
 
 public class UserServiceImp implements UserService {
 
-    // Temporary database (HashMap)
+   
     private static Map<Integer, UpsCustomerSupport> db = new HashMap<>();
 
     @Override
