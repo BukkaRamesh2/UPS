@@ -43,7 +43,7 @@ public class UserController extends User{
      }
 
 	@PutMapping("/updateUser")
-	public void updateUser(User user) throws UserNotFoundException{
+	public void updateUser(@RequestBody User user) throws UserNotFoundException{
 		userServiceImpl.updateUser(user);
 	}
 	
@@ -54,13 +54,13 @@ public class UserController extends User{
 		
 	}
 	
-	@DeleteMapping
-	public void deleteUser(Long userId) {
+	@DeleteMapping("/deleteUser/{userId}")
+	public void deleteUser(@PathVariable Long userId) {
 		userServiceImpl.deleteUser(userId); 
 	}
 	
 	
-	@GetMapping
+	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers(){
 		return userServiceImpl.getAllUsers();
 	}

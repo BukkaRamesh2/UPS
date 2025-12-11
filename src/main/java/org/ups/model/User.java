@@ -312,6 +312,40 @@ import lombok.Setter;
  *          Comparator  -- interfaces  -- used to make the model get unique values 
  *          
  *           copmare() method and this can be capable having multiple sortings
+ *           
+ *           
+ *           
+ *           multi threading 
+ *           
+ *           Send holidays information to 10 users at same time 
+ *           
+ *           Email
+ *           '
+ *           Synchronization -- Multi threading, Executor Service, @Async
+ *           Asyn  -- messaging queues -- Kafka, Active MQ, Rabbit MQ 
+ *           
+ *           To impl mult threading 
+ *           
+ *           Thread() thread = new Thread();
+ *           
+ *           New -- STate 
+ *           Runnable  -- start () 
+ *           Running  -- always running run() method 
+ *           Waiting -- wait or make it sleeep   sleep() wait()
+ *           Dead -- End of execution 
+ *           
+ *           
+ *           Thread Class
+ *           Runnable Interface 
+ *           
+ *           
+ *           Class Test implements Runnable 
+ *           
+ *           public void run() 
+ *           
+ *           void start(); 
+ *           
+ *           
  *     
  */
 

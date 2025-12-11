@@ -6,11 +6,7 @@ import org.ups.model.FraudDetection;
 
 public class FraudServiceImpl implements FraudService {
 
-	@Override
-	public FraudDetection save(FraudDetection f) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<FraudDetection> findAll() {
@@ -28,6 +24,12 @@ public class FraudServiceImpl implements FraudService {
 	public void deleteByCaseId(Integer caseId) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public FraudDetection save(FraudDetection f) {
+		// TODO Auto-generated method stub
+		return null;
 	}
     
 }

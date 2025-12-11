@@ -139,7 +139,10 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class Test {
+public class Test implements Runnable {
+	
+	private Thread t;
+	private String threadName;
 	
 	@jakarta.persistence.Id
 	public Long Id;
@@ -198,6 +201,12 @@ public class Test {
 //		
 //		//status = true;   
 //	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		System.out.println();
+	}
 
 
 }

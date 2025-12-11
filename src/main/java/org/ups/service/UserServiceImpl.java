@@ -80,28 +80,28 @@ public class UserServiceImpl implements UserService {
  public void updateUser(User user) throws UserNotFoundException{
 	 
 	 
-	 File file = new File("E://test//test.txt");
-	 
-	 
-		FileReader fr;
-		try {
-			fr = new FileReader(file);	
-			fr.read();
-			System.out.println("File is not closed");
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();   
-			//throw new 
-		}  // here we got an exception
-	
-	 finally {
-		System.out.println("From finally block File is not closed");
-	}
+//	 File file = new File("E://test//test.txt");
+//	 
+//	 
+//		FileReader fr;
+//		try {
+//			fr = new FileReader(file);	
+//			fr.read();
+//			System.out.println("File is not closed");
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();   
+//			//throw new 
+//		}  // here we got an exception
+//	
+//	 finally {
+//		System.out.println("From finally block File is not closed");
+//	}
 	 
 	 
 	 int numbers[] = {1,2,3,4,5};
-	 System.out.println(numbers[6]);
+	 System.out.println(numbers[2]);
 	 
 	 
 	 
@@ -175,9 +175,9 @@ public class UserServiceImpl implements UserService {
 
      // Delete last user (example)
      User removed = userList.remove(userList.size() - 1);  // 4 -1
-     userMap.remove(removed.getUserId());
-     sortedMap.remove(removed.getUserId());
-     orderedUserMap.remove(removed.getUserId());
+//     userMap.remove(removed.getUserId());
+//     sortedMap.remove(removed.getUserId());
+//     orderedUserMap.remove(removed.getUserId());
 
      System.out.println("Deleted user: " + removed);
      userRepository.deleteById(userId);;
