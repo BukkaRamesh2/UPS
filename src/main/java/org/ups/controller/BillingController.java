@@ -1,15 +1,19 @@
 package org.ups.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.ups.exception.BillingException;
 import org.ups.model.Billing;
 import org.ups.service.BillingService;
 import org.ups.service.BillingServiceImpl;
 
+@RestController
 public class BillingController {
 
-    public static void main(String[] args) {
+    private final BillingService service = new BillingServiceImpl();
 
-        BillingService service = new BillingServiceImpl();
+    @GetMapping("/billing/test")
+    public String runBillingDemo() {
 
         try {
             Billing b1 = new Billing(
@@ -36,12 +40,10 @@ public class BillingController {
                     "2025-11-29", "2025-12-15"
             );
 
-            // ADD
             service.addBill(b1);
             service.addBill(b2);
             service.addBill(b3);
 
-            // UPDATE
             Billing updated = new Billing(
                     102, 202, 302,
                     "BILL-SAI-2-UPDATED",
@@ -51,31 +53,32 @@ public class BillingController {
             );
             service.updateBill(updated);
 
-            // GET BY ID
             Billing fromId = service.getBillById(101);
-            fromId.printBillSummary();
+            if (fromId != null) {
+                fromId.printBillSummary();
+            }
 
-            // GET BY STATUS
             Billing paidBill = service.getBillByStatus("PAID");
-            paidBill.printBillSummary();
+            if (paidBill != null) {
+                paidBill.printBillSummary();
+            }
 
-            // DELETE LAST BILL
             service.deleteLastBill();
 
-            // SORTED BY ID (Comparable)
             System.out.println("=== GET ALL BILLS (sorted by id, Comparable) ===");
             for (Billing b : service.getAllBillsSortedById()) {
                 System.out.println(b);
             }
 
-            // SORTED BY AMOUNT (Comparator)
             System.out.println("=== GET ALL BILLS (sorted by amount, Comparator) ===");
             for (Billing b : service.getAllBillsSortedByAmount()) {
                 System.out.println(b);
             }
 
+            return "Billing demo executed successfully. Check console logs for details.";
+
         } catch (BillingException e) {
-            System.out.println("Billing error: " + e.getMessage());
+            return "Billing error: " + e.getMessage();
         }
     }
 }
