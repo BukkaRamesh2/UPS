@@ -1,24 +1,19 @@
 package org.ups.service;
 
 import java.util.List;
+
 import org.ups.exception.BillingException;
 import org.ups.model.Billing;
 
 public interface BillingService {
 
-    void addBill(Billing bill) throws BillingException;
+    Billing createBill(Billing billing) throws BillingException;
 
-    void updateBill(Billing bill) throws BillingException;
+    List<Billing> getAllBills() throws BillingException;
 
-    Billing getBillById(int billingId) throws BillingException;
+    Billing getBillById(int id) throws BillingException;
 
-    Billing getBillByStatus(String status) throws BillingException;
+    Billing updateBill(int id, Billing updated) throws BillingException;
 
-    void deleteLastBill() throws BillingException;
-
-    List<Billing> getAllBills();
-
-    List<Billing> getAllBillsSortedById();      // Comparable
-
-    List<Billing> getAllBillsSortedByAmount();  // Comparator
+    void deleteBill(int id) throws BillingException;
 }

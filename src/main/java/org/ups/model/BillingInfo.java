@@ -1,5 +1,8 @@
 package org.ups.model;
 
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class BillingInfo {
 
     protected double billingAmount;

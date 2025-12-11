@@ -1,140 +1,54 @@
 package org.ups.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import org.springframework.stereotype.Service;
 import org.ups.exception.BillingException;
-import org.ups.exception.InvalidBillingAmountException;
 import org.ups.model.Billing;
-import org.ups.util.BillingAmountComparator;
+import org.ups.repository.BillingRepository;
 
+@Service
 public class BillingServiceImpl implements BillingService {
 
-    String storeName = "UPS Billing Store";
-    String zipCode = "78261";
+    private final BillingRepository billingRepository;
 
-    // Collections
-    List<Billing> billList = new ArrayList<>();
-    List<String> logHistory = new ArrayList<>();
-    Set<String> statusSet = new HashSet<>();
-    Map<Integer, Billing> billMap = new HashMap<>();
-    Map<Integer, Billing> orderedBillMap = new LinkedHashMap<>();
-
-    @Override
-    public void addBill(Billing bill) throws BillingException {
-        System.out.println("=== ADD BILL ===");
-
-        if (bill == null) {
-            throw new BillingException("Bill cannot be null");
-        }
-        if (bill.getBillingId() <= 0) {
-            throw new BillingException("Invalid billing id: " + bill.getBillingId());
-        }
-        if (bill.getBillingAmount() <= 0) {
-            throw new InvalidBillingAmountException(
-                    "Amount must be positive for bill " + bill.getBillingId());
-        }
-
-        System.out.println("Valid billing id: " + bill.getBillingId());
-
-        // add to collections
-        billList.add(bill);
-        logHistory.add("Bill added: " + bill.getInvoiceNumber());
-        statusSet.add(bill.getBillingStatus());
-        billMap.put(bill.getBillingId(), bill);
-        orderedBillMap.put(bill.getBillingId(), bill);
-
-        System.out.println("Current bills (ArrayList): " + billList);
-        System.out.println("Current statuses (HashSet): " + statusSet);
+    public BillingServiceImpl(BillingRepository billingRepository) {
+        this.billingRepository = billingRepository;
     }
 
     @Override
-    public void updateBill(Billing bill) throws BillingException {
-        System.out.println("=== UPDATE BILL ===");
-
-        if (bill == null) {
-            throw new BillingException("Bill cannot be null");
+    public Billing createBill(Billing billing) throws BillingException {
+        if (billing == null) {
+            throw new BillingException("Billing object is null");
         }
-
-        Billing existing = billMap.get(bill.getBillingId());
-        if (existing == null) {
-            throw new BillingException("Bill not found for id: " + bill.getBillingId());
-        }
-
-        existing.setInvoiceNumber(bill.getInvoiceNumber());
-        existing.setPaymentMethod(bill.getPaymentMethod());
-        existing.setBillingStatus(bill.getBillingStatus());
-        existing.setBillingAmount(bill.getBillingAmount());
-        existing.setTaxAmount(bill.getTaxAmount());
-        existing.setTotalAmount(bill.getTotalAmount());
-
-        System.out.println("Bill updated: " + existing);
+        return billingRepository.save(billing);
     }
 
     @Override
-    public Billing getBillById(int billingId) throws BillingException {
-        System.out.println("=== GET BILL BY ID ===");
-
-        Billing bill = billMap.get(billingId);
-        if (bill == null) {
-            throw new BillingException("No bill found for id: " + billingId);
+    public List<Billing> getAllBills() throws BillingException {
+        List<Billing> list = billingRepository.findAll();
+        if (list.isEmpty()) {
+            throw new BillingException("No bills available");
         }
-        return bill;
+        return list;
     }
 
     @Override
-    public Billing getBillByStatus(String status) throws BillingException {
-        System.out.println("=== GET BILL BY STATUS ===");
-
-        for (Billing b : billList) {
-            if (b.getBillingStatus().equalsIgnoreCase(status)) {
-                return b;
-            }
-        }
-        throw new BillingException("No bill with status: " + status);
+    public Billing getBillById(int id) throws BillingException {
+        return billingRepository.findById(id)
+                .orElseThrow(() -> new BillingException("Bill with id " + id + " not found"));
     }
 
     @Override
-    public void deleteLastBill() throws BillingException {
-        System.out.println("=== DELETE LAST BILL ===");
-
-        if (billList.isEmpty()) {
-            throw new BillingException("No bills to delete");
-        }
-
-        Billing removed = billList.remove(billList.size() - 1);
-        billMap.remove(removed.getBillingId());
-        orderedBillMap.remove(removed.getBillingId());
-
-        System.out.println("Deleted bill: " + removed);
+    public Billing updateBill(int id, Billing updated) throws BillingException {
+        Billing existing = getBillById(id);   // throws if not found
+        updated.setBillingId(existing.getBillingId());
+        return billingRepository.save(updated);
     }
 
     @Override
-    public List<Billing> getAllBills() {
-        System.out.println("=== GET ALL BILLS ===");
-        for (Billing b : billList) {
-            System.out.println("Bill: " + b);
-        }
-        return billList;
-    }
-
-    @Override
-    public List<Billing> getAllBillsSortedById() {
-        List<Billing> copy = new ArrayList<>(billList);
-        Collections.sort(copy);               // uses Comparable (Billing.compareTo)
-        return copy;
-    }
-
-    @Override
-    public List<Billing> getAllBillsSortedByAmount() {
-        List<Billing> copy = new ArrayList<>(billList);
-        copy.sort(new BillingAmountComparator()); // uses Comparator
-        return copy;
+    public void deleteBill(int id) throws BillingException {
+        Billing existing = getBillById(id);   // throws if not found
+        billingRepository.delete(existing);
     }
 }

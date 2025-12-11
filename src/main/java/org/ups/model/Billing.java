@@ -126,13 +126,6 @@ public class Billing extends BillingInfo implements Comparable<Billing> {
         this.status = status;
     }
 
-    public void testBilling() {
-        billingAmount = 500.0;
-        taxAmount = 50.0;
-        totalAmount = 550.0;
-        status = true;
-    }
-
     public void printBillSummary() {
         System.out.println("------------- BILL SUMMARY -------------");
         System.out.println("Billing ID   : " + billingId);
