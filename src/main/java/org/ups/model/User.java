@@ -1,9 +1,20 @@
 package org.ups.model;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 
 import org.ups.util.Test;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
  * 
@@ -239,18 +250,119 @@ import org.ups.util.Test;
  *          
  *          
  *          
+ *          // Exceptions 
  *          
+ *          Checked exceptions
+ *            compile time errors 
+ *            
+ *            the compile will gives the info when you declare the code most of the time
  *          
- * 
+ *          Unchecked exceptions
+ *            run time errors
+ *            
+ *            the systeem will allows you to write the coide but when you execute the program the run time will chow you an error 
+ *            
+ *            
+ *            to handle any exception 
+ *            
+ *            
+ *            try and catch 
+ *            
+ *            try{
+ *            
+ *              business logic
+ *               file operations 
+ *               opened file 
+ *               write data in file 
+ *               unfortuna,ty we got an exception // it wont execute the next set of code comes out of the block 
+ *               file save 
+ *               file close 
+ *              
+ *            } catch(Exception e | FileNotFoundException | ArrarIndexOutOfBoundException ) {
+ *                e.printStackTrace();
+ *            }
+ *            
+ *            finally {
+ *               if exceptions occurs or does not occurs the finally block will execute for 100%
+ *              file.close();
+ *            }
+ *            
+ *            throws  
+ *            
+ *             followed by method name
+ *            
+ *            throw
+ *              will be called inside catch block 
+ *              this is usded most of the time for custom exceptions logic 
+ *              
+ *              throw new Exception();
+ *              
+ *            
+ *                Throwable  --- parent class  
+ *                
+ *                Exception is another calss inherited the Throwable
+ *                
+ *                CUstomer exception extends Exception
+ *                
+ *                
+ *          Compareable  -- interface -- singloe sorting is possible using comparabble interface
+ *          
+              *    int compareTo(Entity){ 
+              *          
+ *          Comparator  -- interfaces  -- used to make the model get unique values 
+ *          
+ *           copmare() method and this can be capable having multiple sortings
+ *           
+ *           
+ *           
+ *           multi threading 
+ *           
+ *           Send holidays information to 10 users at same time 
+ *           
+ *           Email
+ *           '
+ *           Synchronization -- Multi threading, Executor Service, @Async
+ *           Asyn  -- messaging queues -- Kafka, Active MQ, Rabbit MQ 
+ *           
+ *           To impl mult threading 
+ *           
+ *           Thread() thread = new Thread();
+ *           
+ *           New -- STate 
+ *           Runnable  -- start () 
+ *           Running  -- always running run() method 
+ *           Waiting -- wait or make it sleeep   sleep() wait()
+ *           Dead -- End of execution 
+ *           
+ *           
+ *           Thread Class
+ *           Runnable Interface 
+ *           
+ *           
+ *           Class Test implements Runnable 
+ *           
+ *           public void run() 
+ *           
+ *           void start(); 
+ *           
+ *           
+ *     
  */
 
 
-public class User extends Test{
-	
 
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Comparator<User> {
+	
+    @Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userId;   //default
 	
-	private String userName;
+	private String userName;   // sort the data based on user name
 	
 	private String password;
 	
@@ -264,11 +376,15 @@ public class User extends Test{
 	
 	private boolean status;   // local or global 
 	
-	Test test;   // aggregation
+	//Test test;   // aggregation
 	
 	
 	
-	
+	public User(String userName, Long userId, boolean status) {
+		this.userName = userName;
+		this.userId = userId;
+		this.status = status;
+	}
 	
 	public User(Long userId, String userName, String password, String email, Integer phoneNumber, String role,
 			boolean status) {
@@ -283,14 +399,14 @@ public class User extends Test{
 	}
 
 
-	public Test getTest() {
-		return test;
-	}
-
-
-	public void setTest(Test test) {
-		this.test = test;
-	}
+//	public Test getTest() {
+//		return test;
+//	}
+//
+//
+//	public void setTest(Test test) {
+//		this.test = test;
+//	}
 
 
 	public User() {
@@ -347,7 +463,50 @@ public class User extends Test{
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
+	
+	
 
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(Integer phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public LocalDate getMyObj() {
+		return myObj;
+	}
+
+	public void setMyObj(LocalDate myObj) {
+		this.myObj = myObj;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+				+ ", phoneNumber=" + phoneNumber + ", role=" + role + ", myObj=" + myObj + ", status=" + status
+				+ "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -371,31 +530,53 @@ public class User extends Test{
 	}
 
 
-	public void addUser(String userName){
-		// business logic 
-		userName = "12121212";
-		String lastName = "Sam";  // local varaible 
-		
-	    System.out.println("called a method with 1 params");
-
-	
-		
-		status = true;   
-		
-		
-	}
-	
-	public void addUser(String userName, String password){
-		// business logic 
-		userName = "12121212";
-		String lastName = "Sam";  // local varaible 
-		
-	    System.out.println(" user class called a method with 2 params");
-		
-		status = true;   
-	}
+//	public void addUser(String userName){
+//		// business logic 
+//		userName = "12121212";
+//		String lastName = "Sam";  // local varaible 
+//		
+//	    System.out.println("called a method with 1 params");
+//
 //	
-	
+//		
+//		status = true;   
+//		
+//		
+//	}
+//	
+//	public void addUser(String userName, String password){
+//		// business logic 
+//		userName = "12121212";
+//		String lastName = "Sam";  // local varaible 
+//		
+//	    System.out.println(" user class called a method with 2 params");
+//		
+//		status = true;   
+//	}
+//	
+
+	@Override
+	public int compare(User o1, User o2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+//	@Override
+//	public int compareTo(User o) {
+//		return this.userName.compareTo(o.userName);   // single sorting of username
+//	}
+//
+//	@Override
+//	public int compare(User o1, User o2) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//	
+//	@Override
+//	public int compare(User o1, User o2) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 
 //	void testUser() {
