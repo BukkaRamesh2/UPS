@@ -5,7 +5,7 @@ public class AdminInfo {
     public Long adminId;
     private String adminName;
     protected String adminEmail;
-    String department;
+    protected String department;
     private Integer phoneNumber;
     public Boolean activeStatus;
     public String getAdminName() {
@@ -22,5 +22,12 @@ public class AdminInfo {
 
     public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }
