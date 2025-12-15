@@ -1,64 +1,132 @@
 package org.ups.model;
 
-public class FraudDetection extends FraudCheck {
-    private Integer caseId;       
-    private String username;
-    private double amount;
-    private String location;
-    public boolean isBlocked;     
-    
-    // Default constructor
-    public FraudDetection() {
-        super();
-        this.caseId = null;
-        this.username = "unknown";
-        this.amount = 0.0;
-        this.location = "none";
-        this.isBlocked = false;
-        //this.count = 0;
-    }
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.Objects;
 
-    // Parameterized constructor
-    public FraudDetection(Integer caseId, String username, double amount, String location,
-                          boolean isBlocked, String ipAddress, String riskLevel) {
-        super(ipAddress, riskLevel); // initialize parent fields
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@interface FraudEntity {
+    String createdBy() default "Shashank";
+    String purpose() default "Fraud System";
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+@interface RiskField {
+    String level() default "HIGH";
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface FraudCheckMethod {
+    String description() default "Check fraud";
+}
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@FraudEntity(createdBy = "Shashank", purpose = "Check fraud cases")
+public class FraudDetection implements Comparable<FraudDetection> {
+
+    @Id
+    private Integer caseId;
+    
+    private String username;
+
+    @RiskField(level = "HIGH")
+    private Double amount;
+
+    @RiskField(level = "MEDIUM")
+    private String location;
+
+    public boolean isBlocked;
+    
+    int count;
+
+    public FraudDetection(Integer caseId, String username, Double amount, String location) {
         this.caseId = caseId;
         this.username = username;
         this.amount = amount;
         this.location = location;
-        this.isBlocked = isBlocked;
-        //this.count = 0;
+        this.isBlocked = false;
+        this.count = 1;
     }
 
-    // Overloaded constructor 
-    public FraudDetection(Integer caseId, String username) {
-        this(caseId, username, 0.0, "none", false, null, null);
+    public Integer getCaseId() {
+        return caseId;
     }
 
-    // getters / setters 
-    public Integer getCaseId() { return caseId; }
-    public void setCaseId(Integer caseId) { this.caseId = caseId; }
+    public void setCaseId(Integer caseId) {
+        this.caseId = caseId;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getUsername() {
+        return username;
+    }
 
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) { this.amount = amount; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public Double getAmount() {
+        return amount;
+    }
 
-    // Method overloading: two versions of check()
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @FraudCheckMethod(description = "Check with fixed limit")
     public boolean checkFraud() {
-        // simple rule
-        return this.amount > 5000.0;
+        return amount > 5000;
     }
 
+    @FraudCheckMethod(description = "Check with custom limit")
     public boolean checkFraud(double threshold) {
-        return this.amount > threshold;
+        return amount > threshold;
     }
+
+    @Override
+    public int compareTo(FraudDetection other) {
+        return Double.compare(other.amount, this.amount);
+    }
+
     @Override
     public String toString() {
-        return "FraudDetection{caseId=" + caseId + ", username=" + username + ", amount=" + amount + ", location=" + location + ", blocked=" + isBlocked + "}";
+        return "FraudDetection [caseId=" + caseId + ", username=" + username + ", amount=" + amount + ", location=" + location + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(caseId, username, amount, location);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        FraudDetection other = (FraudDetection) obj;
+        return Objects.equals(caseId, other.caseId);
     }
 }

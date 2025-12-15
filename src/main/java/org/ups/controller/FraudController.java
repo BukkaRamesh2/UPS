@@ -1,44 +1,52 @@
 package org.ups.controller;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.ups.model.FraudDetection;
-import org.ups.service.FraudService;
 import org.ups.service.FraudServiceImpl;
 
-public class FraudController {
+@RestController
+@RequestMapping("Fraud")
+public class FraudController extends FraudDetection {
 
-    private final FraudService fraudService;
+    @Autowired
+    FraudServiceImpl fraudServiceImpl;
 
-    public FraudController() {
-        this.fraudService = new FraudServiceImpl();
+    @PostMapping("/createFraud")
+    public void addFraud(@RequestBody FraudDetection fraud) {
+        fraudServiceImpl.addFraud(fraud);
     }
 
-    public FraudDetection create(FraudDetection f) {
-        return fraudService.save(f);
-    }
-
-    public List<FraudDetection> list() {
-        return fraudService.findAll();
-    }
-    public static void main(String[] args) {
-        FraudController ctrl = new FraudController();
-
-        FraudDetection a = new FraudDetection(101, "shashank", 12000.0, "USA", false, "127.0.0.1", "HIGH");
-        FraudDetection b = new FraudDetection(102, "Rama", 50.0, "India", false, "10.0.0.2", "LOW");
-
-        ctrl.create(a);
-        ctrl.create(b);
-
-        System.out.println("All frauds:");
-        for (FraudDetection f : ctrl.list()) {
-            System.out.println(f);
+    @PutMapping("/updateFraud")
+    public void updateFraud(@RequestBody FraudDetection fraud) {
+        try {
+            fraudServiceImpl.updateFraud(fraud);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("Check a simple rule: a.checkFraud() -> " + a.checkFraud());
-        System.out.println("Using threshold: b.checkFraud(100.0) -> " + b.checkFraud(100.0));
+    }
 
-        System.out.println("Polymorphism example:");
-        // base type reference to child object
-        org.ups.model.FraudCheck baseRef = new FraudDetection(201, "poly", 1.0, "X", false, "1.2.3.4", "MED");
-        System.out.println(baseRef.toString()); // overridden toString will run
+    @GetMapping("/getFraud/{caseId}")
+    public FraudDetection getFraud(@PathVariable Integer caseId) {
+        return fraudServiceImpl.getFraud(caseId);
+    }
+
+    @GetMapping("/getAllFrauds")
+    public List<FraudDetection> getAllFrauds() {
+        return fraudServiceImpl.getAllFrauds();
+    }
+
+    @DeleteMapping("/deleteFraud/{caseId}")
+    public void deleteFraud(@PathVariable Integer caseId) {
+        fraudServiceImpl.deleteFraud(caseId);
     }
 }
