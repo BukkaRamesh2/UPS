@@ -1,15 +1,22 @@
 package org.ups.model;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
+import java.util.Objects;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @interface FraudEntity {
     String createdBy() default "Shashank";
-
     String purpose() default "Fraud System";
 }
 
@@ -25,25 +32,30 @@ import java.lang.annotation.ElementType;
     String description() default "Check fraud";
 }
 
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @FraudEntity(createdBy = "Shashank", purpose = "Check fraud cases")
 public class FraudDetection implements Comparable<FraudDetection> {
 
+    @Id
     private Integer caseId;
+    
     private String username;
 
     @RiskField(level = "HIGH")
-    private double amount;
+    private Double amount;
 
     @RiskField(level = "MEDIUM")
     private String location;
 
     public boolean isBlocked;
+    
     int count;
 
-    public FraudDetection() {
-    }
-
-    public FraudDetection(Integer caseId, String username, double amount, String location) {
+    public FraudDetection(Integer caseId, String username, Double amount, String location) {
         this.caseId = caseId;
         this.username = username;
         this.amount = amount;
@@ -68,11 +80,11 @@ public class FraudDetection implements Comparable<FraudDetection> {
         this.username = username;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -101,6 +113,20 @@ public class FraudDetection implements Comparable<FraudDetection> {
 
     @Override
     public String toString() {
-        return "[caseId=" + caseId + ", user=" + username + ", amount=" + amount + "]";
+        return "FraudDetection [caseId=" + caseId + ", username=" + username + ", amount=" + amount + ", location=" + location + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(caseId, username, amount, location);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        FraudDetection other = (FraudDetection) obj;
+        return Objects.equals(caseId, other.caseId);
     }
 }

@@ -1,12 +1,10 @@
 package org.ups.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.ups.model.FraudDetection;
 
-public interface FraudRepository {
-    FraudDetection save(FraudDetection f);
-
-    List<FraudDetection> findAll();
-
-    FraudDetection findByCaseId(Integer caseId); // returns null if not found
+@Repository
+public interface FraudRepository extends JpaRepository<FraudDetection, Integer> {
+    // Spring Boot automatically implements save(), findAll(), findById(), deleteById()
 }

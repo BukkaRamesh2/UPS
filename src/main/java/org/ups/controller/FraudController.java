@@ -1,37 +1,52 @@
 package org.ups.controller;
 
-import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.ups.model.FraudDetection;
-import org.ups.service.FraudService;
 import org.ups.service.FraudServiceImpl;
 
-public class FraudController {
+@RestController
+@RequestMapping("Fraud")
+public class FraudController extends FraudDetection {
 
-    public static void main(String[] args) {
+    @Autowired
+    FraudServiceImpl fraudServiceImpl;
 
-        FraudServiceImpl service = new FraudServiceImpl();
+    @PostMapping("/createFraud")
+    public void addFraud(@RequestBody FraudDetection fraud) {
+        fraudServiceImpl.addFraud(fraud);
+    }
 
-        FraudDetection a = new FraudDetection(null, "Shashank", 12000.0, "USA");
-        FraudDetection b = new FraudDetection(null, "Alice", 500.0, "India");
-        FraudDetection c = new FraudDetection(null, "Bob", 7000.0, "UK");
+    @PutMapping("/updateFraud")
+    public void updateFraud(@RequestBody FraudDetection fraud) {
+        try {
+            fraudServiceImpl.updateFraud(fraud);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        service.save(a);
-        service.save(b);
-        service.save(c);
+    @GetMapping("/getFraud/{caseId}")
+    public FraudDetection getFraud(@PathVariable Integer caseId) {
+        return fraudServiceImpl.getFraud(caseId);
+    }
 
-        List<FraudDetection> all = service.findAll();
-        System.out.println("All Records:");
-        for (FraudDetection f : all)
-            System.out.println(f);
+    @GetMapping("/getAllFrauds")
+    public List<FraudDetection> getAllFrauds() {
+        return fraudServiceImpl.getAllFrauds();
+    }
 
-        Collections.sort(all);
-        System.out.println("\nSorted by amount (descending):");
-        for (FraudDetection f : all)
-            System.out.println(f);
-
-        int highCount = service.countCasesAbove(5000);
-        System.out.println("\nCases above 5000: " + highCount);
+    @DeleteMapping("/deleteFraud/{caseId}")
+    public void deleteFraud(@PathVariable Integer caseId) {
+        fraudServiceImpl.deleteFraud(caseId);
     }
 }
