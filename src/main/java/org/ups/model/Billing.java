@@ -1,13 +1,21 @@
 package org.ups.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.util.Objects;
 
 @Entity
-public class Billing extends BillingInfo {
+@Table(name = "billing")
+public class Billing extends BillingInfo implements Comparable<Billing> {
 
-	@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int billingId;
+
     private int shippingId;
     private int userId;
 
@@ -42,15 +50,80 @@ public class Billing extends BillingInfo {
         this.taxAmount = taxAmount;
         this.totalAmount = totalAmount;
 
-        status = true;
+        this.status = true;
         System.out.println("Billing parameterized constructor is called");
     }
 
-    void testBilling() {
-        billingAmount = 500.0;
-        taxAmount = 50.0;
-        totalAmount = 550.0;
-        status = true;
+    public int getBillingId() {
+        return billingId;
+    }
+
+    public void setBillingId(int billingId) {
+        this.billingId = billingId;
+    }
+
+    public int getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(int shippingId) {
+        this.shippingId = shippingId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getBillingStatus() {
+        return billingStatus;
+    }
+
+    public void setBillingStatus(String billingStatus) {
+        this.billingStatus = billingStatus;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public void printBillSummary() {
@@ -67,5 +140,41 @@ public class Billing extends BillingInfo {
         System.out.println("Created Date : " + createdDate);
         System.out.println("Due Date     : " + dueDate);
         System.out.println("----------------------------------------");
+    }
+
+    @Override
+    public int compareTo(Billing other) {
+        return Integer.compare(this.billingId, other.billingId);
+    }
+
+    @Override
+    public String toString() {
+        return "Billing{" +
+                "billingId=" + billingId +
+                ", shippingId=" + shippingId +
+                ", userId=" + userId +
+                ", invoiceNumber='" + invoiceNumber + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", billingStatus='" + billingStatus + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", dueDate='" + dueDate + '\'' +
+                ", billingAmount=" + billingAmount +
+                ", taxAmount=" + taxAmount +
+                ", totalAmount=" + totalAmount +
+                ", status=" + status +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Billing)) return false;
+        Billing billing = (Billing) o;
+        return billingId == billing.billingId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(billingId);
     }
 }
