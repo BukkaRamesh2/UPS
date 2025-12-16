@@ -331,7 +331,7 @@ import lombok.Setter;
  *           New -- STate 
  *           Runnable  -- start () 
  *           Running  -- always running run() method 
- *           Waiting -- wait or make it sleeep   sleep() wait()
+ *           Waiting -- wait or make it sleep   sleep() wait()
  *           Dead -- End of execution 
  *           
  *           
@@ -356,7 +356,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Comparator<User> {
+public class User implements Comparable<User> {
 	
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
@@ -529,6 +529,12 @@ public class User implements Comparator<User> {
 				&& Objects.equals(userName, other.userName);
 	}
 
+	@Override
+	public int compareTo(User o) {
+		// TODO Auto-generated method stub
+		return (int) (this.userId - o.userId);   /// sort data by user id
+	}
+
 
 //	public void addUser(String userName){
 //		// business logic 
@@ -554,12 +560,42 @@ public class User implements Comparator<User> {
 //		status = true;   
 //	}
 //	
+	
+	// Comparable    
+	
+	// compare To method
+	
+	// Single sorting 
+	
+	// Comparator 
+	
+	// Compare method   
+	
+	      compare user name()
+	      
+	      compare email()
+	
+	// multiple methods can be created and you can perform multiple sorting 
+	
+	// Collections.sort(object )  this is goinig to perform sortting 
+	
+	
+	Collections.sortUser(object ) 
+	
+	Collections.sortUser(object ) 
+	
+	
+	
+	
 
-	@Override
-	public int compare(User o1, User o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+
+
+//	@Override
+//	public int compareTo(User o) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 //	@Override
 //	public int compareTo(User o) {

@@ -127,8 +127,19 @@ import jakarta.persistence.Table;
  *         
  *         
  *    
- *    
- *    
+ *     
+ *      Class extends Class    -- Inheritance 
+ *      Class cannot extends Interface
+ *      
+ *      Class implements Interface   --
+ *      
+ *      Interface extends Class 
+ *      
+ *      
+ *      
+ *      
+ *      
+ *      
  *    
  *    
  *    
@@ -137,15 +148,21 @@ import jakarta.persistence.Table;
  * 
  */
 
-@Entity
-@Table
-public class Test implements Runnable {
+//@Entity
+//@Table
+class TestThread extends Thread {
 	
 	private Thread t;
 	private String threadName;
 	
 	@jakarta.persistence.Id
 	public Long Id;
+	
+	
+	TestThread(String name){
+		threadName = name;
+		System.out.println("Creating Thread :" + threadName);
+	}
 //	
 //	
 //	String name;
@@ -200,13 +217,61 @@ public class Test implements Runnable {
 //	    System.out.println(" test class method with 2 params");
 //		
 //		//status = true;   
-//	}
+//	}\
+	
+	public void count() {
+		System.out.println("Running : " +threadName);
+		try {
+			for(int i = 6; i>0; i--) {
+				System.out.println("Thread : " +threadName + ", " +i);
+				Thread.sleep(5000);
+
+			}
+
+		}catch(InterruptedException e)
+		{
+			e.printStackTrace();
+			System.out.println("Thread : " +threadName + "Interrupted");
+
+		}
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		System.out.println();
+		
+		synchronized (t) {
+			count();
+		
+		
+	}
+	
+		System.out.println("Thread " +threadName + "exiting.");
+	}
+	
+	public void start() {
+		System.out.println("Starting : " +threadName);
+        if (t == null) {
+        	t =  new Thread(this, threadName);
+        	t.start();  // will callss thread run methods by default
+        }
+		
+		
 	}
 
 
+}
+
+public class Test{
+	
+	public static void main(String[] args) {
+		TestThread T1 = new TestThread("Thread-1");   // Runnable
+		T1.start();
+		
+		TestThread T2 = new TestThread("Thread-2");
+		T2.start();
+		
+		TestThread T3 = new TestThread("Thread-3");
+		T3.start();
+	}
+	
 }
