@@ -35,6 +35,13 @@ import org.ups.util.Test;
  *    
  *    Package   -- shashank goud
  *    
+ *    tracking id
+ *    order id
+ *    weight
+ *    dimensions
+ *    count
+ *    package location
+ *    
  *    
  *    
  *    Inventory / Warehouse  -- Srujan 
@@ -70,7 +77,6 @@ import org.ups.util.Test;
  * 
  * 
  */
-
 
 
 @SpringBootApplication

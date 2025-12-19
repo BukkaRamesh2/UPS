@@ -1,0 +1,36 @@
+package org.ups.model;
+
+public class PackageInfo {
+	// Variables (with different access modifiers)
+	 public String senderName;        // public variable
+	 private String receiverName;     // private variable
+	 protected double weight;         // protected variable
+	 String trackingId;               // default (no modifier)
+
+	 // Default Constructor
+	 public PackageInfo() {
+	     senderName = "Unknown";
+	     receiverName = "Unknown";
+	     weight = 0.0;
+	     trackingId = "NA";
+	 }
+
+	 // Parameterized Constructor
+	 public PackageInfo(String sender, String receiver, double wt, String trackId) {
+	     this.senderName = sender;
+	     this.receiverName = receiver;
+	     this.weight = wt;
+	     this.trackingId = trackId;
+	 }
+
+	 // Public method to access a private variable
+	 public String getReceiverName() {
+	     return receiverName;
+	 }
+
+	 // Method to calculate shipping cost
+	 public double calculateCost() {
+	     return weight * 5; // 5$ per kg
+	 }
+
+}
