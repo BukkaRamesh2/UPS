@@ -47,5 +47,6 @@ public class PackageController {
     public String deletePackage(@PathVariable Long trackingId) {
         packageService.deletePackage(trackingId);
         return "Package deleted: " + trackingId;
+        //assignment final verification
     }
 }
