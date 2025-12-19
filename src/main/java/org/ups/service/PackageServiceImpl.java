@@ -1,60 +1,60 @@
 package org.ups.service;
 
+import org.ups.exception.PackageNotFoundException;
 import org.ups.model.Package;
-import java.util.ArrayList;
+import org.ups.repository.PackageRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class PackageServiceImpl implements PackageService {
 
-    private List<Package> packageList = new ArrayList<>();
+    private final PackageRepository packageRepository;
 
-    @Override
-    public String addPackage(Package pkg) {
-        packageList.add(pkg);
-        return "Package Added Successfully!";
+    public PackageServiceImpl(PackageRepository packageRepository) {
+        this.packageRepository = packageRepository;
     }
 
     @Override
-    public String updatePackage(Package pkg) {
-
-        for (Package p : packageList) {
-            if (String.valueOf(p.getTrackingId())
-                    .equals(String.valueOf(pkg.getTrackingId()))) {
-
-                p.setOrderId(pkg.getOrderId());
-                p.setWeight(pkg.getWeight());
-                p.setDimensions(pkg.getDimensions());
-                p.setLocation(pkg.getLocation());
-
-                return "Package Updated!";
-            }
+    public Package addPackage(Package pkg) {
+        // decision making statement (validation)
+        if (pkg.getTrackingId() == null || pkg.getTrackingId() <= 0) {
+            throw new IllegalArgumentException("TrackingId must be > 0");
         }
-        return "Package Not Found!";
+        return packageRepository.save(pkg);
     }
 
     @Override
-    public String deletePackage(String trackingId) {
+    public Package updatePackage(Long trackingId, Package pkg) {
+        Package existing = packageRepository.findById(trackingId)
+                .orElseThrow(() -> new PackageNotFoundException("Package not found with trackingId: " + trackingId));
 
-        boolean removed = packageList.removeIf(
-            p -> String.valueOf(p.getTrackingId()).equals(trackingId)
-        );
+        // update fields
+        existing.setOrderId(pkg.getOrderId());
+        existing.setWeight(pkg.getWeight());
+        existing.setDimensions(pkg.getDimensions());
+        existing.setLocation(pkg.getLocation());
 
-        return removed ? "Package Deleted!" : "Package Not Found!";
+        return packageRepository.save(existing);
     }
 
     @Override
-    public Package getPackage(String trackingId) {
-
-        for (Package p : packageList) {
-            if (String.valueOf(p.getTrackingId()).equals(trackingId)) {
-                return p;
-            }
+    public void deletePackage(Long trackingId) {
+        if (!packageRepository.existsById(trackingId)) {
+            throw new PackageNotFoundException("Package not found with trackingId: " + trackingId);
         }
-        return null;
+        packageRepository.deleteById(trackingId);
+    }
+
+    @Override
+    public Package getPackage(Long trackingId) {
+        return packageRepository.findById(trackingId)
+                .orElseThrow(() -> new PackageNotFoundException("Package not found with trackingId: " + trackingId));
     }
 
     @Override
     public List<Package> getAllPackages() {
-        return packageList;
+        return packageRepository.findAll();
     }
 }

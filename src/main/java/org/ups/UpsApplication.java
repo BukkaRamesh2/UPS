@@ -78,8 +78,6 @@ public class UpsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpsApplication.class, args);
-		String name = "sadasd";
-		Test user = new Test(name);  // create new object default consructopr 
 		
 	}
 

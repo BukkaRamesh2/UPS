@@ -4,9 +4,9 @@ import org.ups.model.Package;
 import java.util.List;
 
 public interface PackageService {
-    String addPackage(Package pkg);
-    String updatePackage(Package pkg);
-    String deletePackage(String trackingId);
-    Package getPackage(String trackingId);
+    Package addPackage(Package pkg);
+    Package updatePackage(Long trackingId, Package pkg);
+    void deletePackage(Long trackingId);
+    Package getPackage(Long trackingId);
     List<Package> getAllPackages();
 }

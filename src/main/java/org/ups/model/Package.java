@@ -1,24 +1,36 @@
 package org.ups.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "packages")
 public class Package {
 
-    private long trackingId;
+    @Id
+    @Column(name = "tracking_id")
+    private Long trackingId;
+
+    @Column(name = "order_id")
     private String orderId;
+
     private double weight;
     private String dimensions;
     private String location;
 
-    // Default constructor
+    // Default constructor (JPA needs it)
     public Package() {
-        this.trackingId = 0;
-        this.orderId = "Unknown";
+        this.trackingId = 0L;
+        this.orderId = "DEFAULT";
         this.weight = 0.0;
-        this.dimensions = "Unknown";
-        this.location = "Unknown";
+        this.dimensions = "DEFAULT";
+        this.location = "DEFAULT";
     }
 
-    // Parameter constructor
-    public Package(long trackingId, String orderId, double weight, String dimensions, String location) {
+    // Parameterized constructor
+    public Package(Long trackingId, String orderId, double weight, String dimensions, String location) {
         this.trackingId = trackingId;
         this.orderId = orderId;
         this.weight = weight;
@@ -27,11 +39,11 @@ public class Package {
     }
 
     // Getters & Setters
-    public long getTrackingId() {
+    public Long getTrackingId() {
         return trackingId;
     }
 
-    public void setTrackingId(long trackingId) {
+    public void setTrackingId(Long trackingId) {
         this.trackingId = trackingId;
     }
 
@@ -65,5 +77,16 @@ public class Package {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Package{" +
+                "trackingId=" + trackingId +
+                ", orderId='" + orderId + '\'' +
+                ", weight=" + weight +
+                ", dimensions='" + dimensions + '\'' +
+                ", location='" + location + '\'' +
+                '}';
     }
 }
