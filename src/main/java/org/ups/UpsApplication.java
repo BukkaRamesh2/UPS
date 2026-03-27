@@ -2,6 +2,9 @@ package org.ups;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.ups.model.User;
+import org.ups.util.Test;
+
 
 
 /*
@@ -30,7 +33,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    
  *    
  *    
- *    Package   -- shashank
+ *    Package   -- shashank goud
  *    
  *    tracking id
  *    order id
@@ -56,9 +59,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    
  *    
  *    
+
+ *    Admin console    -- Tejaswi
  *    
+ *    
+ *    
+ *    Fraud detection -- shashank
+
  *  
- *    Shashank P --- Fraud detection 
+ *
  *    
  *    
  *    
@@ -75,6 +84,7 @@ public class UpsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpsApplication.class, args);
+		
 	}
 
 }
